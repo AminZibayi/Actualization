@@ -66,12 +66,12 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
             </div>
 
             {/* Canvas Grid */}
-            <div className='flex-1 grid grid-cols-5 grid-rows-[3fr_1fr] gap-0 border-b-2 border-gray-800 bg-white'>
-              {/* Top Section (Strategy) */}
-              <div className='col-span-5 grid grid-cols-5 grid-rows-3'>
-                {/* Column 1 (Problem & Suppliers) */}
-                <div className='col-span-1 row-span-3 grid grid-rows-3 border-r-2 border-gray-300'>
-                  <div className='row-span-2 border-b-2 border-gray-200'>
+            <div className='flex-1 flex flex-col bg-white border-b-2 border-gray-800'>
+              {/* Top Section (Strategy) - 5 Columns */}
+              <div className='flex-[3] grid grid-cols-5 border-b-2 border-gray-800'>
+                {/* Column 1 - Tall Top */}
+                <div className='col-span-1 flex flex-col border-r-2 border-gray-300'>
+                  <div className='flex-[2] border-b-2 border-gray-200'>
                     <CanvasBlock
                       isRTL={isRTL}
                       data={data.blocks.problem}
@@ -79,54 +79,79 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                       icon={AlertTriangle}
                     />
                   </div>
-                  <div className='row-span-1'>
-                    <CanvasBlock isRTL={isRTL} data={data.blocks.suppliers} icon={Truck} />
+                  <div className='flex-1'>
+                    <CanvasBlock
+                      isRTL={isRTL}
+                      data={data.blocks.essentialAssets}
+                      className='h-full'
+                      icon={Truck}
+                    />
                   </div>
                 </div>
 
-                {/* Column 2 (Solution, Metrics, Functions) */}
-                <div className='col-span-1 row-span-3 grid grid-rows-3 border-r-2 border-gray-300'>
-                  <div className='row-span-1 border-b-2 border-gray-200'>
-                    <CanvasBlock isRTL={isRTL} data={data.blocks.solution} icon={Lightbulb} />
+                {/* Column 2 - Tall Bottom */}
+                <div className='col-span-1 flex flex-col border-r-2 border-gray-300'>
+                  <div className='flex-1 border-b-2 border-gray-200'>
+                    <CanvasBlock
+                      isRTL={isRTL}
+                      data={data.blocks.solution}
+                      className='h-full'
+                      icon={Lightbulb}
+                    />
                   </div>
-                  <div className='row-span-1 border-b-2 border-gray-200'>
-                    <CanvasBlock isRTL={isRTL} data={data.blocks.keyMetrics} icon={BarChart} />
-                  </div>
-                  <div className='row-span-1'>
+                  <div className='flex-[2]'>
                     <CanvasBlock
                       isRTL={isRTL}
                       data={data.blocks.primaryFunctions}
+                      className='h-full'
                       icon={Activity}
                     />
                   </div>
                 </div>
 
-                {/* Column 3 (Center - Value Prop) */}
-                <div className='col-span-1 row-span-3 border-r-2 border-gray-300'>
-                  <CanvasBlock
-                    isRTL={isRTL}
-                    data={data.blocks.valuePropositions}
-                    className='h-full'
-                    icon={Gift}
-                  />
-                </div>
-
-                {/* Column 4 (Unfair Adv, Channels, Assets) */}
-                <div className='col-span-1 row-span-3 grid grid-rows-3 border-r-2 border-gray-300'>
-                  <div className='row-span-1 border-b-2 border-gray-200'>
-                    <CanvasBlock isRTL={isRTL} data={data.blocks.unfairAdvantage} icon={Shield} />
+                {/* Column 3 (Center) - Tall Top */}
+                <div className='col-span-1 flex flex-col border-r-2 border-gray-300'>
+                  <div className='flex-[2] border-b-2 border-gray-200'>
+                    <CanvasBlock
+                      isRTL={isRTL}
+                      data={data.blocks.valuePropositions}
+                      className='h-full'
+                      icon={Gift}
+                    />
                   </div>
-                  <div className='row-span-1 border-b-2 border-gray-200'>
-                    <CanvasBlock isRTL={isRTL} data={data.blocks.channels} icon={Share2} />
-                  </div>
-                  <div className='row-span-1'>
-                    <CanvasBlock isRTL={isRTL} data={data.blocks.essentialAssets} icon={Box} />
+                  <div className='flex-1'>
+                    <CanvasBlock
+                      isRTL={isRTL}
+                      data={data.blocks.unfairAdvantage}
+                      className='h-full'
+                      icon={Shield}
+                    />
                   </div>
                 </div>
 
-                {/* Column 5 (Segments & Relationships) */}
-                <div className='col-span-1 row-span-3 grid grid-rows-3'>
-                  <div className='row-span-2 border-b-2 border-gray-200'>
+                {/* Column 4 - Tall Bottom */}
+                <div className='col-span-1 flex flex-col border-r-2 border-gray-300'>
+                  <div className='flex-1 border-b-2 border-gray-200'>
+                    <CanvasBlock
+                      isRTL={isRTL}
+                      data={data.blocks.channels}
+                      className='h-full'
+                      icon={Share2}
+                    />
+                  </div>
+                  <div className='flex-[2]'>
+                    <CanvasBlock
+                      isRTL={isRTL}
+                      data={data.blocks.suppliers}
+                      className='h-full'
+                      icon={Box}
+                    />
+                  </div>
+                </div>
+
+                {/* Column 5 - Tall Top */}
+                <div className='col-span-1 flex flex-col'>
+                  <div className='flex-[2] border-b-2 border-gray-200'>
                     <CanvasBlock
                       isRTL={isRTL}
                       data={data.blocks.customerSegments}
@@ -134,23 +159,42 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                       icon={Users}
                     />
                   </div>
-                  <div className='row-span-1'>
+                  <div className='flex-1'>
                     <CanvasBlock
                       isRTL={isRTL}
                       data={data.blocks.customerRelationships}
+                      className='h-full'
                       icon={Heart}
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Bottom Section (Finance) */}
-              <div className='col-span-5 grid grid-cols-2 border-t-2 border-gray-800'>
+              {/* Bottom Section (Finance) - 3 Columns */}
+              <div className='flex-1 grid grid-cols-3'>
                 <div className='border-r-2 border-gray-300'>
-                  <CanvasBlock isRTL={isRTL} data={data.blocks.costStructure} icon={CreditCard} />
+                  <CanvasBlock
+                    isRTL={isRTL}
+                    data={data.blocks.costStructure}
+                    className='h-full'
+                    icon={CreditCard}
+                  />
+                </div>
+                <div className='border-r-2 border-gray-300'>
+                  <CanvasBlock
+                    isRTL={isRTL}
+                    data={data.blocks.keyMetrics}
+                    className='h-full'
+                    icon={BarChart}
+                  />
                 </div>
                 <div>
-                  <CanvasBlock isRTL={isRTL} data={data.blocks.revenueStreams} icon={Banknote} />
+                  <CanvasBlock
+                    isRTL={isRTL}
+                    data={data.blocks.revenueStreams}
+                    className='h-full'
+                    icon={Banknote}
+                  />
                 </div>
               </div>
             </div>
