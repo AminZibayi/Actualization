@@ -27,14 +27,14 @@ export const DEFAULT_DATA: CanvasData = {
   blocks: {
     suppliers: {
       id: 'suppliers',
-      titleEn: '11. Suppliers',
-      titleFa: '۱۱. تامین‌کنندگان',
+      titleEn: 'Suppliers',
+      titleFa: 'تامین‌کنندگان',
       notes: [],
     },
     problem: {
       id: 'problem',
-      titleEn: '1. Problem',
-      titleFa: '۱. مسئله',
+      titleEn: 'Problem',
+      titleFa: 'مسئله',
       notes: [
         {
           id: 'n1',
@@ -46,68 +46,68 @@ export const DEFAULT_DATA: CanvasData = {
     },
     primaryFunctions: {
       id: 'primaryFunctions',
-      titleEn: '12. Primary Functions',
-      titleFa: '۱۲. فعالیت‌های اصلی',
+      titleEn: 'Primary Functions',
+      titleFa: 'فعالیت‌های اصلی',
       notes: [],
     },
     solution: {
       id: 'solution',
-      titleEn: '2. Solution',
-      titleFa: '۲. راه‌حل',
+      titleEn: 'Solution',
+      titleFa: 'راه‌حل',
       notes: [],
     },
     essentialAssets: {
       id: 'essentialAssets',
-      titleEn: '13. Essential Assets',
-      titleFa: '۱۳. دارایی‌های ضروری',
+      titleEn: 'Essential Assets',
+      titleFa: 'دارایی‌های ضروری',
       notes: [],
     },
     keyMetrics: {
       id: 'keyMetrics',
-      titleEn: '3. Key Metrics',
-      titleFa: '۳. سنجه‌های کلیدی',
+      titleEn: 'Key Metrics',
+      titleFa: 'سنجه‌های کلیدی',
       notes: [],
     },
     valuePropositions: {
       id: 'valuePropositions',
-      titleEn: '5. Value Propositions',
-      titleFa: '۵. ارزش پیشنهادی',
+      titleEn: 'Value Propositions',
+      titleFa: 'ارزش پیشنهادی',
       notes: [{ id: 'n2', title: 'Speed', body: '10x Faster than incumbents.', color: 'green' }],
     },
     unfairAdvantage: {
       id: 'unfairAdvantage',
-      titleEn: '4. Unfair Advantage',
-      titleFa: '۴. مزیت مطلق',
+      titleEn: 'Unfair Advantage',
+      titleFa: 'مزیت مطلق',
       notes: [],
     },
     channels: {
       id: 'channels',
-      titleEn: '7. Channels',
-      titleFa: '۷. کانال‌ها',
+      titleEn: 'Channels',
+      titleFa: 'کانال‌ها',
       notes: [],
     },
     customerRelationships: {
       id: 'customerRelationships',
-      titleEn: '8. Customer Relationships',
-      titleFa: '۸. ارتباط با مشتریان',
+      titleEn: 'Customer Relationships',
+      titleFa: 'ارتباط با مشتریان',
       notes: [],
     },
     customerSegments: {
       id: 'customerSegments',
-      titleEn: '6. Customer Segments',
-      titleFa: '۶. بخش‌های مشتریان',
+      titleEn: 'Customer Segments',
+      titleFa: 'بخش‌های مشتریان',
       notes: [{ id: 'n3', title: 'Gen Z', body: 'Tech savvy users.', color: 'blue' }],
     },
     costStructure: {
       id: 'costStructure',
-      titleEn: '10. Cost Structure',
-      titleFa: '۱۰. ساختار هزینه‌ها',
+      titleEn: 'Cost Structure',
+      titleFa: 'ساختار هزینه‌ها',
       notes: [],
     },
     revenueStreams: {
       id: 'revenueStreams',
-      titleEn: '9. Revenue Streams',
-      titleFa: '۹. جریان‌های درآمدی',
+      titleEn: 'Revenue Streams',
+      titleFa: 'جریان‌های درآمدی',
       notes: [],
     },
   },
@@ -117,13 +117,14 @@ export const SEED_DATA: CanvasData = {
   meta: {
     title: 'EcoScoot',
     caption: 'Urban Electric Mobility Platform',
-    logoUrl: '',
+    logoUrl:
+      'https://img.freepik.com/free-vector/colorful-letter-gradient-logo-design_474888-2309.jpg',
   },
   blocks: {
     suppliers: {
       id: 'suppliers',
-      titleEn: '11. Suppliers',
-      titleFa: '۱۱. تامین‌کنندگان',
+      titleEn: 'Suppliers',
+      titleFa: 'تامین‌کنندگان',
       notes: [
         {
           id: 's1',
@@ -136,8 +137,8 @@ export const SEED_DATA: CanvasData = {
     },
     problem: {
       id: 'problem',
-      titleEn: '1. Problem',
-      titleFa: '۱. مسئله',
+      titleEn: 'Problem',
+      titleFa: 'مسئله',
       notes: [
         {
           id: 'p1',
@@ -150,8 +151,8 @@ export const SEED_DATA: CanvasData = {
     },
     primaryFunctions: {
       id: 'primaryFunctions',
-      titleEn: '12. Primary Functions',
-      titleFa: '۱۲. فعالیت‌های اصلی',
+      titleEn: 'Primary Functions',
+      titleFa: 'فعالیت‌های اصلی',
       notes: [
         { id: 'pf1', title: 'Fleet Mgmt', body: 'Daily charging & repairs.', color: 'green' },
         { id: 'pf2', title: 'App Dev', body: 'User experience & tracking.', color: 'green' },
@@ -159,8 +160,8 @@ export const SEED_DATA: CanvasData = {
     },
     solution: {
       id: 'solution',
-      titleEn: '2. Solution',
-      titleFa: '۲. راه‌حل',
+      titleEn: 'Solution',
+      titleFa: 'راه‌حل',
       notes: [
         {
           id: 'sol1',
@@ -172,8 +173,8 @@ export const SEED_DATA: CanvasData = {
     },
     essentialAssets: {
       id: 'essentialAssets',
-      titleEn: '13. Essential Assets',
-      titleFa: '۱۳. دارایی‌های ضروری',
+      titleEn: 'Essential Assets',
+      titleFa: 'دارایی‌های ضروری',
       notes: [
         { id: 'ea1', title: 'The Fleet', body: '500 Initial Scooters.', color: 'blue' },
         {
@@ -186,8 +187,8 @@ export const SEED_DATA: CanvasData = {
     },
     keyMetrics: {
       id: 'keyMetrics',
-      titleEn: '3. Key Metrics',
-      titleFa: '۳. سنجه‌های کلیدی',
+      titleEn: 'Key Metrics',
+      titleFa: 'سنجه‌های کلیدی',
       notes: [
         { id: 'km1', title: 'Rides/Day', body: 'Target: 4 rides per scooter.', color: 'green' },
         { id: 'km2', title: 'CAC', body: 'Cost to acquire rider < $5.', color: 'yellow' },
@@ -195,8 +196,8 @@ export const SEED_DATA: CanvasData = {
     },
     valuePropositions: {
       id: 'valuePropositions',
-      titleEn: '5. Value Propositions',
-      titleFa: '۵. ارزش پیشنهادی',
+      titleEn: 'Value Propositions',
+      titleFa: 'ارزش پیشنهادی',
       notes: [
         { id: 'vp1', title: 'Fast Commute', body: 'Bypass traffic instantly.', color: 'green' },
         { id: 'vp2', title: 'Eco-Friendly', body: 'Zero emissions ride.', color: 'green' },
@@ -205,8 +206,8 @@ export const SEED_DATA: CanvasData = {
     },
     unfairAdvantage: {
       id: 'unfairAdvantage',
-      titleEn: '4. Unfair Advantage',
-      titleFa: '۴. مزیت مطلق',
+      titleEn: 'Unfair Advantage',
+      titleFa: 'مزیت مطلق',
       notes: [
         {
           id: 'ua1',
@@ -218,8 +219,8 @@ export const SEED_DATA: CanvasData = {
     },
     channels: {
       id: 'channels',
-      titleEn: '7. Channels',
-      titleFa: '۷. کانال‌ها',
+      titleEn: 'Channels',
+      titleFa: 'کانال‌ها',
       notes: [
         { id: 'ch1', title: 'Mobile App', body: 'iOS and Android Store.', color: 'yellow' },
         { id: 'ch2', title: 'Social Media', body: 'Instagram local influencers.', color: 'yellow' },
@@ -227,8 +228,8 @@ export const SEED_DATA: CanvasData = {
     },
     customerRelationships: {
       id: 'customerRelationships',
-      titleEn: '8. Customer Relationships',
-      titleFa: '۸. ارتباط با مشتریان',
+      titleEn: 'Customer Relationships',
+      titleFa: 'ارتباط با مشتریان',
       notes: [
         { id: 'cr1', title: 'Automated', body: 'Self-service via app.', color: 'blue' },
         { id: 'cr2', title: 'Support Chat', body: '24/7 in-app assistance.', color: 'blue' },
@@ -236,8 +237,8 @@ export const SEED_DATA: CanvasData = {
     },
     customerSegments: {
       id: 'customerSegments',
-      titleEn: '6. Customer Segments',
-      titleFa: '۶. بخش‌های مشتریان',
+      titleEn: 'Customer Segments',
+      titleFa: 'بخش‌های مشتریان',
       notes: [
         { id: 'cs1', title: 'Commuters', body: 'Daily office workers.', color: 'pink' },
         { id: 'cs2', title: 'Students', body: 'University campus travel.', color: 'pink' },
@@ -246,8 +247,8 @@ export const SEED_DATA: CanvasData = {
     },
     costStructure: {
       id: 'costStructure',
-      titleEn: '10. Cost Structure',
-      titleFa: '۱۰. ساختار هزینه‌ها',
+      titleEn: 'Cost Structure',
+      titleFa: 'ساختار هزینه‌ها',
       notes: [
         { id: 'cst1', title: 'Hardware', body: 'Scooter purchase & depreciation.', color: 'red' },
         { id: 'cst2', title: 'Charging', body: 'Electricity and "Juicer" labor.', color: 'red' },
@@ -255,8 +256,8 @@ export const SEED_DATA: CanvasData = {
     },
     revenueStreams: {
       id: 'revenueStreams',
-      titleEn: '9. Revenue Streams',
-      titleFa: '۹. جریان‌های درآمدی',
+      titleEn: 'Revenue Streams',
+      titleFa: 'جریان‌های درآمدی',
       notes: [
         { id: 'rs1', title: 'Unlock Fee', body: '$1 per ride start.', color: 'green' },
         { id: 'rs2', title: 'Per Minute', body: '$0.15 per minute riding.', color: 'green' },
