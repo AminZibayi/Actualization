@@ -37,10 +37,12 @@ export default function Home() {
   const handleDownload = async () => {
     if (!canvasRef.current) return;
     setDownloading(true);
+
+    // Give the UI a moment to update the spinner
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     try {
       // Determine canvas configuration based on selected size
-      // Default to A4 if not set or invalid
-      // Aspect ratio for A-series landscape is sqrt(2) ≈ 1.414
       const sizeKey = (data.meta.canvasSize as 'A4' | 'A3' | 'A2' | 'A1') || 'A4';
       const config = {
         A4: { width: 1400 },
@@ -51,6 +53,12 @@ export default function Home() {
 
       const targetWidth = config[sizeKey]?.width || 1400;
       const targetHeight = targetWidth / 1.414; // A-series landscape ratio
+
+      // Calculate a safe scale to prevent browser crashes/black screens on large canvases
+      // We aim for a maximum width of around 4000px which offers great quality (4K)
+      // without exhausting GPU memory.
+      const MAX_SAFE_WIDTH = 4500;
+      const scale = Math.min(2, MAX_SAFE_WIDTH / targetWidth);
 
       // 1. Clone the node
       const element = canvasRef.current;
@@ -90,7 +98,6 @@ export default function Home() {
         logoWidth = logoHeight * aspectRatio;
 
         // Create a canvas to draw the image and get raw pixels
-        // This bypasses any object-fit or CORS issues
         try {
           const tempCanvas = document.createElement('canvas');
           tempCanvas.width = Math.round(logoWidth);
@@ -107,7 +114,7 @@ export default function Home() {
 
       // 4. Capture
       const canvas = await html2canvas(clone, {
-        scale: 2, // High resolution
+        scale: scale, // Use dynamic safe scale
         useCORS: true,
         backgroundColor: '#ffffff',
         width: targetWidth,
