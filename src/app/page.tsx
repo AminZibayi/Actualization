@@ -38,6 +38,20 @@ export default function Home() {
     if (!canvasRef.current) return;
     setDownloading(true);
     try {
+      // Determine canvas configuration based on selected size
+      // Default to A4 if not set or invalid
+      // Aspect ratio for A-series landscape is sqrt(2) ≈ 1.414
+      const sizeKey = (data.meta.canvasSize as 'A4' | 'A3' | 'A2' | 'A1') || 'A4';
+      const config = {
+        A4: { width: 1400 },
+        A3: { width: 1980 },
+        A2: { width: 2800 },
+        A1: { width: 3960 },
+      };
+
+      const targetWidth = config[sizeKey]?.width || 1400;
+      const targetHeight = targetWidth / 1.414; // A-series landscape ratio
+
       // 1. Clone the node
       const element = canvasRef.current;
       const clone = element.cloneNode(true) as HTMLElement;
@@ -55,33 +69,70 @@ export default function Home() {
       container.appendChild(clone);
       document.body.appendChild(container);
 
-      // 3. Reset transforms on the clone if necessary
-      // If the ref was on the INNER element (inside the zoom wrapper),
-      // we might not need to strip transforms if we cloned the right thing.
-      // However, if we cloned a zoomed container, we need to reset it.
-      // Based on CanvasPreview, ref is on the inner 1400px div.
-      // So it should be fine, but let's ensure it's displayed at full size.
+      // 3. Reset transforms and enforce size on the clone
       clone.style.transform = 'none';
-      clone.style.width = '1400px'; // Enforce original width
-      clone.style.height = 'auto'; // Let height adapt or be fixed
+      clone.style.width = `${targetWidth}px`;
+      clone.style.height = `${targetHeight}px`;
 
-      // Ensure specific aspect ratio or size if needed
-      // The original has w-[1400px] aspect-[16/9]
+      // Capture original logo and convert to base64 for reliable export
+      const originalLogo = element.querySelector(
+        'img[data-testid="canvas-logo"]'
+      ) as HTMLImageElement;
 
-      // Wait for images in clone to load? Usually data URIs or already loaded.
+      let logoDataUrl = '';
+      let logoWidth = 0;
+      let logoHeight = 0;
+
+      if (originalLogo && originalLogo.complete && originalLogo.naturalWidth > 0) {
+        // Get the displayed dimensions
+        logoHeight = originalLogo.clientHeight;
+        const aspectRatio = originalLogo.naturalWidth / originalLogo.naturalHeight;
+        logoWidth = logoHeight * aspectRatio;
+
+        // Create a canvas to draw the image and get raw pixels
+        // This bypasses any object-fit or CORS issues
+        try {
+          const tempCanvas = document.createElement('canvas');
+          tempCanvas.width = Math.round(logoWidth);
+          tempCanvas.height = Math.round(logoHeight);
+          const ctx = tempCanvas.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(originalLogo, 0, 0, tempCanvas.width, tempCanvas.height);
+            logoDataUrl = tempCanvas.toDataURL('image/png');
+          }
+        } catch (err) {
+          console.warn('Could not convert logo to data URL (CORS?)', err);
+        }
+      }
 
       // 4. Capture
       const canvas = await html2canvas(clone, {
-        scale: 2, // High res
+        scale: 2, // High resolution
         useCORS: true,
         backgroundColor: '#ffffff',
-        width: 1400,
-        height: 787.5, // 1400 * (9/16)
-        windowWidth: 1400,
-        windowHeight: 787.5,
-        onclone: (_clonedDoc, _clonedEl) => {
-          // Additional tweaks if needed inside the isolated document context
-          // e.g. force show hidden elements
+        width: targetWidth,
+        height: targetHeight,
+        windowWidth: targetWidth,
+        windowHeight: targetHeight,
+        onclone: (_clonedDoc, clonedEl) => {
+          // Replace logo with our pre-rendered version
+          const clonedLogo = clonedEl.querySelector(
+            'img[data-testid="canvas-logo"]'
+          ) as HTMLImageElement;
+
+          if (clonedLogo && logoWidth && logoHeight) {
+            // Set explicit dimensions
+            clonedLogo.style.width = `${Math.round(logoWidth)}px`;
+            clonedLogo.style.height = `${Math.round(logoHeight)}px`;
+            clonedLogo.style.objectFit = 'fill';
+            clonedLogo.width = Math.round(logoWidth);
+            clonedLogo.height = Math.round(logoHeight);
+
+            // If we successfully created a data URL, use it
+            if (logoDataUrl) {
+              clonedLogo.src = logoDataUrl;
+            }
+          }
         },
       });
 

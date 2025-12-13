@@ -28,13 +28,23 @@ interface CanvasPreviewProps {
   isRTL: boolean;
 }
 
+const CANVAS_CONFIG = {
+  A4: { width: 1400, scale: 1 },
+  A3: { width: 1980, scale: 1.414 },
+  A2: { width: 2800, scale: 2 },
+  A1: { width: 3960, scale: 2.828 },
+} as const;
+
 export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
   ({ data, isRTL }, ref) => {
+    const sizeKey = data.meta.canvasSize || 'A4';
+    const { width, scale } = CANVAS_CONFIG[sizeKey] || CANVAS_CONFIG.A4;
+
     return (
       <div className='flex-1 bg-gray-200 overflow-hidden relative flex flex-col h-full'>
         <TransformWrapper
           initialScale={0.6}
-          minScale={0.2}
+          minScale={0.1}
           maxScale={4}
           centerOnInit
           limitToBounds={false}
@@ -81,8 +91,13 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                 <div
                   ref={ref}
                   dir={isRTL ? 'rtl' : 'ltr'}
-                  className='bg-white shadow-2xl relative transition-all duration-300 w-[1400px] min-w-[1400px] aspect-[16/9] flex flex-row'
-                  style={{ fontFamily: isRTL ? '"Vazirmatn", sans-serif' : '"Inter", sans-serif' }}
+                  className='bg-white shadow-2xl relative transition-all duration-300 flex flex-row'
+                  style={{
+                    width: `${width}px`,
+                    minWidth: `${width}px`,
+                    aspectRatio: '1.414', // Standard A-series Landscape ratio
+                    fontFamily: isRTL ? '"Vazirmatn", sans-serif' : '"Inter", sans-serif',
+                  }}
                   data-testid='canvas-preview'
                 >
                   {/* MAIN GRID AREA */}
@@ -91,13 +106,15 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                     <div className='flex justify-between items-center px-8 py-4 border-b-2 border-gray-800 bg-gray-50/50'>
                       <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
                         <h1
-                          className='text-3xl font-extrabold text-gray-900 tracking-tight uppercase'
+                          className='font-extrabold text-gray-900 tracking-tight uppercase'
+                          style={{ fontSize: `${30 * scale}px` }}
                           data-testid='canvas-title'
                         >
                           {data.meta.title}
                         </h1>
                         <p
-                          className='text-gray-500 text-sm font-medium'
+                          className='text-gray-500 font-medium'
+                          style={{ fontSize: `${14 * scale}px` }}
                           data-testid='canvas-caption'
                         >
                           {data.meta.caption}
@@ -107,7 +124,9 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                         <img
                           src={data.meta.logoUrl}
                           alt='Logo'
-                          className='h-10 object-contain mix-blend-multiply'
+                          crossOrigin='anonymous'
+                          className='object-contain mix-blend-multiply'
+                          style={{ height: `${40 * scale}px` }}
                           data-testid='canvas-logo'
                         />
                       )}
@@ -125,6 +144,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.problem}
                               className='h-full'
                               icon={AlertTriangle}
+                              scale={scale}
                             />
                           </div>
                           <div className='flex-1'>
@@ -133,6 +153,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.essentialAssets}
                               className='h-full'
                               icon={Truck}
+                              scale={scale}
                             />
                           </div>
                         </div>
@@ -145,6 +166,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.solution}
                               className='h-full'
                               icon={Lightbulb}
+                              scale={scale}
                             />
                           </div>
                           <div className='flex-[2]'>
@@ -153,6 +175,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.primaryFunctions}
                               className='h-full'
                               icon={Activity}
+                              scale={scale}
                             />
                           </div>
                         </div>
@@ -165,6 +188,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.valuePropositions}
                               className='h-full'
                               icon={Gift}
+                              scale={scale}
                             />
                           </div>
                           <div className='flex-1'>
@@ -173,6 +197,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.unfairAdvantage}
                               className='h-full'
                               icon={Shield}
+                              scale={scale}
                             />
                           </div>
                         </div>
@@ -185,6 +210,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.channels}
                               className='h-full'
                               icon={Share2}
+                              scale={scale}
                             />
                           </div>
                           <div className='flex-[2]'>
@@ -193,6 +219,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.suppliers}
                               className='h-full'
                               icon={Box}
+                              scale={scale}
                             />
                           </div>
                         </div>
@@ -205,6 +232,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.customerSegments}
                               className='h-full'
                               icon={Users}
+                              scale={scale}
                             />
                           </div>
                           <div className='flex-1'>
@@ -213,6 +241,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               data={data.blocks.customerRelationships}
                               className='h-full'
                               icon={Heart}
+                              scale={scale}
                             />
                           </div>
                         </div>
@@ -226,6 +255,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             data={data.blocks.costStructure}
                             className='h-full'
                             icon={CreditCard}
+                            scale={scale}
                           />
                         </div>
                         <div className='border-r-2 border-gray-300'>
@@ -234,6 +264,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             data={data.blocks.keyMetrics}
                             className='h-full'
                             icon={BarChart}
+                            scale={scale}
                           />
                         </div>
                         <div>
@@ -242,13 +273,17 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             data={data.blocks.revenueStreams}
                             className='h-full'
                             icon={Banknote}
+                            scale={scale}
                           />
                         </div>
                       </div>
                     </div>
 
                     {/* Footer Branding Inside Grid Area */}
-                    <div className='p-2 flex justify-between text-[10px] text-gray-400 bg-white'>
+                    <div
+                      className='p-2 flex justify-between text-gray-400 bg-white'
+                      style={{ fontSize: `${10 * scale}px` }}
+                    >
                       <span>Designed with EBMC-13 Generator</span>
                       <span>{new Date().toLocaleDateString()}</span>
                     </div>

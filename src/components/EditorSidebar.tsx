@@ -1,7 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Plus, Trash2, ChevronLeft } from 'lucide-react';
+import {
+  Plus,
+  Trash2,
+  ChevronLeft,
+  Link,
+  Upload,
+  FileText,
+  Image as ImageIcon,
+} from 'lucide-react';
 import { CanvasData, EditorTab, Note, NoteColor } from '@/types';
 import { BLOCK_IDS, NOTE_COLOR_VALUES } from '@/constants';
 
@@ -20,6 +28,196 @@ interface EditorSidebarProps {
 }
 
 const NOTE_COLOR_OPTIONS: NoteColor[] = ['yellow', 'blue', 'green', 'pink', 'red'];
+
+interface LogoInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  isRTL: boolean;
+}
+
+const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
+  const [mode, setMode] = React.useState<'url' | 'upload' | 'paste'>('url');
+  const [urlInput, setUrlInput] = React.useState('');
+  const [isConverting, setIsConverting] = React.useState(false);
+  const [convertError, setConvertError] = React.useState('');
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result as string;
+        onChange(result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePaste = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const content = e.target.value.trim();
+    if (!content) return;
+
+    if (content.startsWith('data:image')) {
+      onChange(content);
+    } else if (content.includes('<svg')) {
+      try {
+        const encoded = btoa(unescape(encodeURIComponent(content)));
+        onChange(`data:image/svg+xml;base64,${encoded}`);
+      } catch (err) {
+        console.error('Failed to encode SVG', err);
+      }
+    } else if (/^[A-Za-z0-9+/=]+$/.test(content)) {
+      onChange(`data:image/svg+xml;base64,${content}`);
+    } else {
+      // Fallback: assume it's a URL
+      onChange(content);
+    }
+  };
+
+  // Convert external URL to base64 for reliable export
+  const convertUrlToBase64 = async (url: string) => {
+    if (!url || url.startsWith('data:')) {
+      onChange(url);
+      return;
+    }
+
+    setIsConverting(true);
+    setConvertError('');
+
+    try {
+      // Fetch the image through a CORS proxy or directly
+      const response = await fetch(url, { mode: 'cors' });
+      if (!response.ok) throw new Error('Failed to fetch image');
+
+      const blob = await response.blob();
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const base64 = reader.result as string;
+        onChange(base64);
+        setIsConverting(false);
+      };
+
+      reader.onerror = () => {
+        throw new Error('Failed to convert to base64');
+      };
+
+      reader.readAsDataURL(blob);
+    } catch (err) {
+      console.error('Failed to convert URL to base64:', err);
+      setConvertError('Could not load image. Try uploading instead.');
+      // Fall back to using the URL directly (may not export correctly)
+      onChange(url);
+      setIsConverting(false);
+    }
+  };
+
+  const handleUrlSubmit = () => {
+    if (urlInput.trim()) {
+      convertUrlToBase64(urlInput.trim());
+    }
+  };
+
+  return (
+    <div className='mt-4 pt-4 border-t border-gray-100'>
+      <label className='block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2'>
+        Logo
+      </label>
+      <div className='flex gap-2 mb-3 bg-gray-100 p-1 rounded-md'>
+        {(['url', 'upload', 'paste'] as const).map((m) => (
+          <button
+            key={m}
+            className={`flex-1 py-1 text-xs font-medium rounded-sm transition-all ${
+              mode === m
+                ? 'bg-white text-indigo-600 shadow-sm'
+                : 'text-gray-500 hover:text-gray-700'
+            }`}
+            onClick={() => setMode(m)}
+          >
+            {m === 'url' && <Link size={12} className='inline mr-1' />}
+            {m === 'upload' && <Upload size={12} className='inline mr-1' />}
+            {m === 'paste' && <FileText size={12} className='inline mr-1' />}
+            {m.charAt(0).toUpperCase() + m.slice(1)}
+          </button>
+        ))}
+      </div>
+
+      {mode === 'url' && (
+        <div className='space-y-2'>
+          <div className='relative flex gap-2'>
+            <div className='relative flex-1'>
+              <Link
+                size={14}
+                className={`absolute top-2.5 ${isRTL ? 'right-3' : 'left-3'} text-gray-400`}
+              />
+              <input
+                value={urlInput}
+                onChange={(e) => setUrlInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleUrlSubmit()}
+                placeholder='https://example.com/logo.png'
+                className={`w-full p-2 ${
+                  isRTL ? 'pr-9' : 'pl-9'
+                } border rounded-md text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500`}
+                dir='ltr'
+                disabled={isConverting}
+              />
+            </div>
+            <button
+              onClick={handleUrlSubmit}
+              disabled={isConverting || !urlInput.trim()}
+              className='px-3 py-2 bg-indigo-600 text-white text-xs font-medium rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+            >
+              {isConverting ? 'Loading...' : 'Load'}
+            </button>
+          </div>
+          {convertError && <p className='text-xs text-red-500'>{convertError}</p>}
+          <p className='text-xs text-gray-400'>
+            Enter URL and click Load to convert for reliable export
+          </p>
+        </div>
+      )}
+
+      {mode === 'upload' && (
+        <label className='border-2 border-dashed border-gray-300 rounded-md p-6 flex flex-col items-center justify-center cursor-pointer hover:border-indigo-400 hover:bg-indigo-50 transition-all text-center group'>
+          <Upload
+            size={24}
+            className='text-gray-400 group-hover:text-indigo-500 mb-2 transition-colors'
+          />
+          <span className='text-xs text-gray-600 group-hover:text-indigo-700 font-medium'>
+            Click to upload SVG
+          </span>
+          <input
+            type='file'
+            accept='image/svg+xml'
+            className='hidden'
+            onChange={handleFileUpload}
+          />
+        </label>
+      )}
+
+      {mode === 'paste' && (
+        <textarea
+          placeholder='Paste SVG code or Base64 string...'
+          className='w-full p-2 border rounded-md text-xs font-mono bg-gray-50 text-gray-600 h-24 outline-none focus:ring-2 focus:ring-indigo-500 resize-none'
+          onChange={handlePaste}
+        />
+      )}
+
+      {value && (
+        <div className='mt-3 flex items-center gap-2 text-xs text-green-600 bg-green-50 p-2 rounded border border-green-100'>
+          <ImageIcon size={14} />
+          <span className='font-medium'>Logo set successfully</span>
+          <button
+            onClick={() => onChange('')}
+            className='ml-auto text-green-700 hover:text-green-900 hover:underline'
+          >
+            Remove
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   data,
@@ -96,6 +294,32 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 dir={isRTL ? 'rtl' : 'ltr'}
                 data-testid='input-caption'
               />
+              <LogoInput
+                value={data.meta.logoUrl || ''}
+                onChange={(url) => setData({ ...data, meta: { ...data.meta, logoUrl: url } })}
+                isRTL={isRTL}
+              />
+
+              <div className='mt-4 pt-4 border-t border-gray-100'>
+                <label className='block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2'>
+                  Canvas Size
+                </label>
+                <div className='flex gap-2 bg-gray-100 p-1 rounded-md'>
+                  {(['A4', 'A3', 'A2', 'A1'] as const).map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setData({ ...data, meta: { ...data.meta, canvasSize: size } })}
+                      className={`flex-1 py-1 text-xs font-medium rounded-sm transition-all ${
+                        data.meta.canvasSize === size
+                          ? 'bg-white text-indigo-600 shadow-sm'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -18,6 +18,7 @@ export interface CanvasMeta {
   title: string;
   caption: string;
   logoUrl: string;
+  canvasSize: 'A4' | 'A3' | 'A2' | 'A1';
 }
 
 export interface CanvasData {

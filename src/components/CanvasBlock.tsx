@@ -9,9 +9,16 @@ interface CanvasBlockProps {
   isRTL: boolean;
   className?: string;
   icon?: React.ElementType;
+  scale?: number;
 }
 
-export const CanvasBlock: React.FC<CanvasBlockProps> = ({ data, isRTL, className, icon: Icon }) => {
+export const CanvasBlock: React.FC<CanvasBlockProps> = ({
+  data,
+  isRTL,
+  className,
+  icon: Icon,
+  scale = 1,
+}) => {
   return (
     <div
       className={`bg-white border-2 border-gray-200 p-2 flex flex-col relative overflow-hidden h-full min-h-[160px] group ${
@@ -22,14 +29,15 @@ export const CanvasBlock: React.FC<CanvasBlockProps> = ({ data, isRTL, className
       {/* Background Icon */}
       {Icon && (
         <div className='absolute inset-0 flex items-center justify-center opacity-[0.07] pointer-events-none z-0'>
-          <Icon size={120} strokeWidth={1} />
+          <Icon size={120 * scale} strokeWidth={1} />
         </div>
       )}
 
       <h3
-        className={`text-xs font-bold uppercase tracking-wider text-gray-500 mb-2 relative z-10 ${
+        className={`font-bold uppercase tracking-wider text-gray-500 mb-2 relative z-10 ${
           isRTL ? 'text-right' : 'text-left'
         }`}
+        style={{ fontSize: `${12 * scale}px` }}
         data-testid='block-title'
       >
         {isRTL ? data.titleFa : data.titleEn}
