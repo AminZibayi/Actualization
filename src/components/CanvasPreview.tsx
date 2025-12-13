@@ -288,7 +288,16 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                       <span>{new Date().toLocaleDateString()}</span>
                     </div>
 
-                    <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] z-0 mix-blend-multiply" />
+                    {/* Background Pattern */}
+                    {data.meta.backgroundPattern && data.meta.backgroundPattern !== 'none' && (
+                      <div
+                        className='absolute inset-0 pointer-events-none z-0 mix-blend-multiply opacity-40'
+                        style={{
+                          backgroundImage: `url('/patterns/${data.meta.backgroundPattern}.png')`,
+                          backgroundRepeat: 'repeat',
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
               </TransformComponent>

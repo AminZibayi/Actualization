@@ -11,7 +11,8 @@ import {
   Image as ImageIcon,
 } from 'lucide-react';
 import { CanvasData, EditorTab, Note, NoteColor } from '@/types';
-import { BLOCK_IDS, NOTE_COLOR_VALUES } from '@/constants';
+import { BLOCK_IDS, NOTE_COLOR_VALUES, PATTERN_TYPE } from '@/constants';
+import { PatternSelector } from './PatternSelector';
 
 interface EditorSidebarProps {
   data: CanvasData;
@@ -319,6 +320,15 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                     </button>
                   ))}
                 </div>
+              </div>
+
+              <div className='mt-4 pt-4 border-t border-gray-100'>
+                <PatternSelector
+                  value={(data.meta.backgroundPattern as PATTERN_TYPE) || 'none'}
+                  onChange={(value) =>
+                    setData({ ...data, meta: { ...data.meta, backgroundPattern: value } })
+                  }
+                />
               </div>
             </div>
           </div>
