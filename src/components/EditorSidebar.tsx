@@ -34,6 +34,15 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onUpdateNote,
   onDeleteNote,
 }) => {
+  const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
+
+  React.useEffect(() => {
+    if (activeTab === 'yaml' && textAreaRef.current) {
+      textAreaRef.current.style.height = 'auto';
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+    }
+  }, [activeTab, yamlText]);
+
   return (
     <aside
       className={`
@@ -59,35 +68,42 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
         </button>
       </div>
 
-      <div className='p-4 border-b bg-gray-50 pt-0'>
-        <div className='space-y-3'>
-          <input
-            value={data.meta.title}
-            onChange={(e) => setData({ ...data, meta: { ...data.meta, title: e.target.value } })}
-            placeholder='Startup Name'
-            className={`w-full p-2 border rounded-md text-sm text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none ${
-              isRTL ? 'text-right' : 'text-left'
-            }`}
-            dir={isRTL ? 'rtl' : 'ltr'}
-            data-testid='input-title'
-          />
-          <input
-            value={data.meta.caption}
-            onChange={(e) => setData({ ...data, meta: { ...data.meta, caption: e.target.value } })}
-            placeholder='Tagline or Date'
-            className={`w-full p-2 border rounded-md text-sm text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none ${
-              isRTL ? 'text-right' : 'text-left'
-            }`}
-            dir={isRTL ? 'rtl' : 'ltr'}
-            data-testid='input-caption'
-          />
-        </div>
-      </div>
-
       <div className='flex-1 overflow-y-auto custom-scrollbar'>
+        {activeTab !== 'yaml' && (
+          <div className='p-4 border-b bg-gray-50 pt-0'>
+            <div className='space-y-3'>
+              <input
+                value={data.meta.title}
+                onChange={(e) =>
+                  setData({ ...data, meta: { ...data.meta, title: e.target.value } })
+                }
+                placeholder='Startup Name'
+                className={`w-full p-2 border rounded-md text-sm text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none ${
+                  isRTL ? 'text-right' : 'text-left'
+                }`}
+                dir={isRTL ? 'rtl' : 'ltr'}
+                data-testid='input-title'
+              />
+              <input
+                value={data.meta.caption}
+                onChange={(e) =>
+                  setData({ ...data, meta: { ...data.meta, caption: e.target.value } })
+                }
+                placeholder='Tagline or Date'
+                className={`w-full p-2 border rounded-md text-sm text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none ${
+                  isRTL ? 'text-right' : 'text-left'
+                }`}
+                dir={isRTL ? 'rtl' : 'ltr'}
+                data-testid='input-caption'
+              />
+            </div>
+          </div>
+        )}
+
         {activeTab === 'yaml' ? (
           <textarea
-            className='w-full h-full p-4 font-mono text-sm bg-gray-900 text-green-400 resize-none outline-none'
+            ref={textAreaRef}
+            className='w-full p-4 font-mono text-sm bg-gray-900 text-green-400 resize-none outline-none overflow-hidden min-h-[500px]'
             value={yamlText}
             onChange={onYamlChange}
             spellCheck={false}

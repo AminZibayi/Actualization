@@ -102,7 +102,7 @@ export default function Home() {
 
   return (
     <div
-      className={`min-h-screen bg-gray-50 flex flex-col font-sans ${isRTL ? 'dir-rtl' : 'dir-ltr'}`}
+      className={`h-screen overflow-hidden bg-gray-50 flex flex-col font-sans ${isRTL ? 'dir-rtl' : 'dir-ltr'}`}
     >
       <Header
         activeTab={activeTab}
@@ -116,7 +116,7 @@ export default function Home() {
         downloading={downloading}
       />
 
-      <main className='flex-1 flex flex-col lg:flex-row overflow-hidden h-[calc(100vh-64px)]'>
+      <main className='flex-1 flex flex-col lg:flex-row overflow-hidden relative'>
         <EditorSidebar
           data={data}
           setData={setData}
