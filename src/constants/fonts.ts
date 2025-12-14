@@ -76,6 +76,15 @@ export const GOOGLE_FONTS: GoogleFont[] = [
   { label: 'IBM Plex Mono', value: 'IBM Plex Mono', category: 'monospace' },
   { label: 'Nanum Gothic Coding', value: 'Nanum Gothic Coding', category: 'monospace' },
   { label: 'Anonymous Pro', value: 'Anonymous Pro', category: 'monospace' },
+
+  // Persian / Arabic
+  { label: 'Vazirmatn', value: 'Vazirmatn', category: 'sans-serif' },
+  { label: 'Lalezar', value: 'Lalezar', category: 'display' },
+  { label: 'Amiri', value: 'Amiri', category: 'serif' },
+  { label: 'Lateef', value: 'Lateef', category: 'handwriting' },
+  { label: 'Scheherazade New', value: 'Scheherazade New', category: 'serif' },
+  { label: 'Noto Naskh Arabic', value: 'Noto Naskh Arabic', category: 'serif' },
+  { label: 'Markazi Text', value: 'Markazi Text', category: 'serif' },
 ];
 
 export const DEFAULT_FONTS = {

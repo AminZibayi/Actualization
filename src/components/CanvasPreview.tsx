@@ -109,7 +109,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                     width: `${width}px`,
                     minWidth: `${width}px`,
                     aspectRatio: '1.414', // Standard A-series Landscape ratio
-                    fontFamily: isRTL ? '"Vazirmatn", sans-serif' : '"Inter", sans-serif',
+                    fontFamily: '"Inter", sans-serif',
                   }}
                   data-testid='canvas-preview'
                 >
@@ -122,9 +122,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                           className='font-extrabold text-gray-900 tracking-tight uppercase'
                           style={{
                             fontSize: `${30 * scale}px`,
-                            fontFamily: isRTL
-                              ? '"Vazirmatn", sans-serif'
-                              : `"${fonts.canvasTitle}", sans-serif`,
+                            fontFamily: `"${fonts.canvasTitle}", sans-serif`,
                           }}
                           data-testid='canvas-title'
                         >
@@ -134,9 +132,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                           className='text-gray-500 font-medium'
                           style={{
                             fontSize: `${14 * scale}px`,
-                            fontFamily: isRTL
-                              ? '"Vazirmatn", sans-serif'
-                              : `"${fonts.canvasCaption}", sans-serif`,
+                            fontFamily: `"${fonts.canvasCaption}", sans-serif`,
                           }}
                           data-testid='canvas-caption'
                         >

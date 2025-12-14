@@ -47,11 +47,7 @@ export const CanvasBlock: React.FC<CanvasBlockProps> = ({
         }`}
         style={{
           fontSize: `${12 * scale}px`,
-          fontFamily: isRTL
-            ? '"Vazirmatn", sans-serif'
-            : fonts
-              ? `"${fonts.blockTitle}", sans-serif`
-              : undefined,
+          fontFamily: fonts ? `"${fonts.blockTitle}", sans-serif` : undefined,
         }}
         data-testid='block-title'
       >

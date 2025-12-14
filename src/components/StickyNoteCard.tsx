@@ -43,11 +43,7 @@ export const StickyNoteCard: React.FC<StickyNoteCardProps> = ({ note, onDelete, 
         className='font-bold text-sm mb-1 leading-tight'
         data-testid='note-title'
         style={{
-          fontFamily: isRTL
-            ? '"Vazirmatn", sans-serif'
-            : fonts
-              ? `"${fonts.noteTitle}", cursive`
-              : '"Gloria Hallelujah", cursive',
+          fontFamily: fonts ? `"${fonts.noteTitle}", cursive` : '"Gloria Hallelujah", cursive',
         }}
       >
         {note.title}
@@ -56,11 +52,7 @@ export const StickyNoteCard: React.FC<StickyNoteCardProps> = ({ note, onDelete, 
         className='text-xs whitespace-pre-wrap leading-tight'
         data-testid='note-body'
         style={{
-          fontFamily: isRTL
-            ? '"Vazirmatn", sans-serif'
-            : fonts
-              ? `"${fonts.noteBody}", sans-serif`
-              : undefined,
+          fontFamily: fonts ? `"${fonts.noteBody}", sans-serif` : undefined,
         }}
       >
         {note.body}
