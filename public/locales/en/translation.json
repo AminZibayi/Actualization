@@ -37,6 +37,23 @@
       "title": "Title",
       "details": "Details...",
       "pasteSvg": "Paste SVG code or Base64 string..."
+    },
+    "fonts": {
+      "title": "Fonts",
+      "primary": "Primary Font",
+      "customize": "Customize Elements",
+      "canvasTitle": "Canvas Title",
+      "canvasCaption": "Canvas Caption",
+      "blockTitle": "Block Title",
+      "noteTitle": "Note Title",
+      "noteBody": "Note Body",
+      "categories": {
+        "sans-serif": "Sans Serif",
+        "serif": "Serif",
+        "display": "Display",
+        "handwriting": "Handwriting",
+        "monospace": "Monospace"
+      }
     }
   },
   "canvas": {

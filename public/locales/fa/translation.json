@@ -37,6 +37,23 @@
       "title": "عنوان",
       "details": "جزئیات...",
       "pasteSvg": "کد SVG یا رشته Base64 را بچسبانید..."
+    },
+    "fonts": {
+      "title": "فونت‌ها",
+      "primary": "فونت اصلی",
+      "customize": "سفارشی‌سازی اجزا",
+      "canvasTitle": "عنوان بوم",
+      "canvasCaption": "توضیحات بوم",
+      "blockTitle": "عنوان بلوک",
+      "noteTitle": "عنوان یادداشت",
+      "noteBody": "متن یادداشت",
+      "categories": {
+        "sans-serif": "بدون سریف",
+        "serif": "سریف",
+        "display": "نمایشی",
+        "handwriting": "دست‌نویس",
+        "monospace": "تک‌فاصله"
+      }
     }
   },
   "canvas": {
