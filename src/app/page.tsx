@@ -1,26 +1,27 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import { Header, EditorSidebar, CanvasPreview } from '@/components';
 import { useCanvasData } from '@/hooks';
 
 export default function Home() {
   const canvasRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   const {
     data,
     setData,
     activeTab,
     setActiveTab,
-    language,
-    setLanguage,
     isSidebarOpen,
     setIsSidebarOpen,
     yamlText,
     downloading,
     setDownloading,
     isRTL,
+    toggleLanguage,
     syncYamlFromData,
     handleSeed,
     handleYamlChange,
@@ -152,7 +153,7 @@ export default function Home() {
       link.click();
     } catch (e) {
       console.error('Download failed', e);
-      alert('Could not generate image. Please try again.');
+      alert(t('errors.downloadFailed'));
     } finally {
       setDownloading(false);
     }
@@ -165,10 +166,9 @@ export default function Home() {
       <Header
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        language={language}
-        setLanguage={setLanguage}
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
+        onToggleLanguage={toggleLanguage}
         onSeed={handleSeed}
         onDownload={handleDownload}
         downloading={downloading}

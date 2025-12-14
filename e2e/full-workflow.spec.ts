@@ -40,7 +40,7 @@ test.describe('Full Workflow', () => {
 
     // Canvas should be in RTL mode
     const canvas = page.getByTestId('canvas-preview');
-    await expect(canvas).toHaveClass(/rtl-grid/);
+    await expect(canvas).toHaveAttribute('dir', 'rtl');
   });
 
   test('sidebar toggle opens and closes sidebar', async ({ page }) => {

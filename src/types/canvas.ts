@@ -1,5 +1,13 @@
 export type NoteColor = 'yellow' | 'blue' | 'green' | 'pink' | 'red';
 
+export interface CanvasFonts {
+  canvasTitle: string;
+  canvasCaption: string;
+  blockTitle: string;
+  noteTitle: string;
+  noteBody: string;
+}
+
 export interface Note {
   id: string;
   title: string;
@@ -9,8 +17,6 @@ export interface Note {
 
 export interface BlockData {
   id: string;
-  titleEn: string;
-  titleFa: string;
   notes: Note[];
 }
 
@@ -21,6 +27,7 @@ export interface CanvasMeta {
   canvasSize: 'A4' | 'A3' | 'A2' | 'A1';
   backgroundPattern?: string;
   noteColumns?: number;
+  fonts?: CanvasFonts;
 }
 
 export interface CanvasData {

@@ -1,8 +1,10 @@
 'use client';
 
-import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { BlockData } from '@/types';
 import { StickyNoteCard } from './StickyNoteCard';
+
+import { CanvasFonts } from '@/types';
 
 interface CanvasBlockProps {
   data: BlockData;
@@ -11,6 +13,7 @@ interface CanvasBlockProps {
   icon?: React.ElementType;
   scale?: number;
   columns?: number;
+  fonts?: CanvasFonts;
 }
 
 export const CanvasBlock: React.FC<CanvasBlockProps> = ({
@@ -19,8 +22,11 @@ export const CanvasBlock: React.FC<CanvasBlockProps> = ({
   className,
   icon: Icon,
   scale = 1,
+  fonts,
   ...props
 }) => {
+  const { t } = useTranslation();
+
   return (
     <div
       className={`bg-white border-2 border-gray-200 p-2 flex flex-col relative overflow-hidden h-full min-h-[160px] group ${
@@ -39,10 +45,17 @@ export const CanvasBlock: React.FC<CanvasBlockProps> = ({
         className={`font-bold uppercase tracking-wider text-gray-500 mb-2 relative z-10 ${
           isRTL ? 'text-right' : 'text-left'
         }`}
-        style={{ fontSize: `${12 * scale}px` }}
+        style={{
+          fontSize: `${12 * scale}px`,
+          fontFamily: isRTL
+            ? '"Vazirmatn", sans-serif'
+            : fonts
+              ? `"${fonts.blockTitle}", sans-serif`
+              : undefined,
+        }}
         data-testid='block-title'
       >
-        {isRTL ? data.titleFa : data.titleEn}
+        {t(`blocks.${data.id}`)}
       </h3>
       <div className='flex-1 w-full relative z-10'>
         <div className='flex flex-wrap gap-2 content-start justify-center'>
@@ -55,7 +68,7 @@ export const CanvasBlock: React.FC<CanvasBlockProps> = ({
                 })`,
               }}
             >
-              <StickyNoteCard note={note} isRTL={isRTL} />
+              <StickyNoteCard note={note} isRTL={isRTL} fonts={fonts} />
             </div>
           ))}
         </div>

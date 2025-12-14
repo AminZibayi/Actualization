@@ -1,0 +1,75 @@
+{
+  "header": {
+    "title": "EBMC-13",
+    "subtitle": "Generator",
+    "tabGui": "GUI",
+    "tabYaml": "YAML",
+    "seed": "Seed",
+    "exportPng": "Export PNG",
+    "toggleSidebar": "Toggle Sidebar",
+    "openSidebar": "Open Sidebar",
+    "closeSidebar": "Close Sidebar",
+    "loadExample": "Load Example Data",
+    "toggleLanguage": "Toggle Language"
+  },
+  "sidebar": {
+    "projectDetails": "Project Details",
+    "logo": "Logo",
+    "canvasSize": "Canvas Size",
+    "noteColumns": "Note Columns",
+    "backgroundPattern": "Background Pattern",
+    "noStickyNotes": "No sticky notes",
+    "url": "Url",
+    "upload": "Upload",
+    "paste": "Paste",
+    "load": "Load",
+    "loading": "Loading...",
+    "logoSuccess": "Logo set successfully",
+    "remove": "Remove",
+    "clickToUpload": "Click to upload SVG",
+    "urlHint": "Enter URL and click Load to convert for reliable export",
+    "loadError": "Could not load image. Try uploading instead.",
+    "setColorTo": "Set color to",
+    "placeholders": {
+      "startupName": "Startup Name",
+      "taglineOrDate": "Tagline or Date",
+      "logoUrl": "https://example.com/logo.png",
+      "title": "Title",
+      "details": "Details...",
+      "pasteSvg": "Paste SVG code or Base64 string..."
+    }
+  },
+  "canvas": {
+    "zoomIn": "Zoom In",
+    "zoomOut": "Zoom Out",
+    "reset": "Reset",
+    "zoomHint": "Scroll / Pinch to zoom • Drag to pan",
+    "footer": "Designed with EBMC-13 Generator"
+  },
+  "patterns": {
+    "none": "None",
+    "paper-fibers": "Paper Fibers",
+    "cubes": "Cubes",
+    "lined-paper": "Lined Paper",
+    "bright-squares": "Bright Squares",
+    "grid": "Grid"
+  },
+  "blocks": {
+    "suppliers": "Suppliers",
+    "problem": "Problem",
+    "primaryFunctions": "Primary Functions",
+    "solution": "Solution",
+    "essentialAssets": "Essential Assets",
+    "keyMetrics": "Key Metrics",
+    "valuePropositions": "Value Propositions",
+    "unfairAdvantage": "Unfair Advantage",
+    "channels": "Channels",
+    "customerRelationships": "Customer Relationships",
+    "customerSegments": "Customer Segments",
+    "costStructure": "Cost Structure",
+    "revenueStreams": "Revenue Streams"
+  },
+  "errors": {
+    "downloadFailed": "Could not generate image. Please try again."
+  }
+}

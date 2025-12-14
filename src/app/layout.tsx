@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Gloria_Hallelujah, Vazirmatn } from 'next/font/google';
 import './globals.css';
+import { I18nProviderWrapper } from '@/components';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -42,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${inter.variable} ${gloria.variable} ${vazirmatn.variable} antialiased`}>
-        {children}
+        <I18nProviderWrapper>{children}</I18nProviderWrapper>
       </body>
     </html>
   );

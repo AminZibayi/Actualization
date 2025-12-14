@@ -1,6 +1,5 @@
-'use client';
-
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { PATTERNS, PATTERN_TYPE } from '@/constants/patterns';
 
 interface PatternSelectorProps {
@@ -9,10 +8,12 @@ interface PatternSelectorProps {
 }
 
 export const PatternSelector: React.FC<PatternSelectorProps> = ({ value, onChange }) => {
+  const { t } = useTranslation();
+
   return (
     <div className='bg-white p-4 rounded-lg shadow-sm border border-gray-200'>
       <label className='block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2'>
-        Background Pattern
+        {t('sidebar.backgroundPattern')}
       </label>
       <select
         value={value || 'none'}
@@ -21,7 +22,7 @@ export const PatternSelector: React.FC<PatternSelectorProps> = ({ value, onChang
       >
         {PATTERNS.map((pattern) => (
           <option key={pattern.value} value={pattern.value}>
-            {pattern.label}
+            {t(`patterns.${pattern.value}`)}
           </option>
         ))}
       </select>

@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import { Trash2 } from 'lucide-react';
-import { Note } from '@/types';
+import { Note, CanvasFonts } from '@/types';
 import { getRandomRotation } from '@/utils';
 import { NOTE_COLORS } from '@/constants';
 
@@ -10,9 +10,10 @@ interface StickyNoteCardProps {
   note: Note;
   onDelete?: () => void;
   isRTL: boolean;
+  fonts?: CanvasFonts;
 }
 
-export const StickyNoteCard: React.FC<StickyNoteCardProps> = ({ note, onDelete, isRTL }) => {
+export const StickyNoteCard: React.FC<StickyNoteCardProps> = ({ note, onDelete, isRTL, fonts }) => {
   const rotation = useRef(getRandomRotation());
 
   const colorClass = NOTE_COLORS[note.color] || NOTE_COLORS.yellow;
@@ -22,7 +23,6 @@ export const StickyNoteCard: React.FC<StickyNoteCardProps> = ({ note, onDelete, 
       className={`relative p-3 shadow-md border-b-2 ${colorClass} transition-transform hover:scale-105 hover:z-10 group`}
       style={{
         transform: `rotate(${rotation.current}deg)`,
-        fontFamily: isRTL ? '"Vazirmatn", sans-serif' : '"Gloria Hallelujah", cursive',
       }}
       data-testid='sticky-note'
     >
@@ -39,10 +39,30 @@ export const StickyNoteCard: React.FC<StickyNoteCardProps> = ({ note, onDelete, 
           <Trash2 size={12} />
         </button>
       )}
-      <div className='font-bold text-sm mb-1 leading-tight' data-testid='note-title'>
+      <div
+        className='font-bold text-sm mb-1 leading-tight'
+        data-testid='note-title'
+        style={{
+          fontFamily: isRTL
+            ? '"Vazirmatn", sans-serif'
+            : fonts
+              ? `"${fonts.noteTitle}", cursive`
+              : '"Gloria Hallelujah", cursive',
+        }}
+      >
         {note.title}
       </div>
-      <div className='text-xs whitespace-pre-wrap leading-tight' data-testid='note-body'>
+      <div
+        className='text-xs whitespace-pre-wrap leading-tight'
+        data-testid='note-body'
+        style={{
+          fontFamily: isRTL
+            ? '"Vazirmatn", sans-serif'
+            : fonts
+              ? `"${fonts.noteBody}", sans-serif`
+              : undefined,
+        }}
+      >
         {note.body}
       </div>
     </div>

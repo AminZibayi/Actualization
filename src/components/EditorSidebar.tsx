@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Plus,
   Trash2,
@@ -13,6 +14,7 @@ import {
 import { CanvasData, EditorTab, Note, NoteColor } from '@/types';
 import { BLOCK_IDS, NOTE_COLOR_VALUES, PATTERN_TYPE } from '@/constants';
 import { PatternSelector } from './PatternSelector';
+import { FontSelector } from './FontSelector';
 
 interface EditorSidebarProps {
   data: CanvasData;
@@ -37,6 +39,7 @@ interface LogoInputProps {
 }
 
 const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
+  const { t } = useTranslation();
   const [mode, setMode] = React.useState<'url' | 'upload' | 'paste'>('url');
   const [urlInput, setUrlInput] = React.useState('');
   const [isConverting, setIsConverting] = React.useState(false);
@@ -106,7 +109,7 @@ const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
       reader.readAsDataURL(blob);
     } catch (err) {
       console.error('Failed to convert URL to base64:', err);
-      setConvertError('Could not load image. Try uploading instead.');
+      setConvertError(t('sidebar.loadError'));
       // Fall back to using the URL directly (may not export correctly)
       onChange(url);
       setIsConverting(false);
@@ -122,7 +125,7 @@ const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
   return (
     <div className='mt-4 pt-4 border-t border-gray-100'>
       <label className='block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2'>
-        Logo
+        {t('sidebar.logo')}
       </label>
       <div className='flex gap-2 mb-3 bg-gray-100 p-1 rounded-md'>
         {(['url', 'upload', 'paste'] as const).map((m) => (
@@ -138,7 +141,7 @@ const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
             {m === 'url' && <Link size={12} className='inline mr-1' />}
             {m === 'upload' && <Upload size={12} className='inline mr-1' />}
             {m === 'paste' && <FileText size={12} className='inline mr-1' />}
-            {m.charAt(0).toUpperCase() + m.slice(1)}
+            {t(`sidebar.${m}`)}
           </button>
         ))}
       </div>
@@ -155,7 +158,7 @@ const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
                 value={urlInput}
                 onChange={(e) => setUrlInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleUrlSubmit()}
-                placeholder='https://example.com/logo.png'
+                placeholder={t('sidebar.placeholders.logoUrl')}
                 className={`w-full p-2 ${
                   isRTL ? 'pr-9' : 'pl-9'
                 } border rounded-md text-sm text-gray-900 outline-none focus:ring-2 focus:ring-indigo-500`}
@@ -168,13 +171,11 @@ const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
               disabled={isConverting || !urlInput.trim()}
               className='px-3 py-2 bg-indigo-600 text-white text-xs font-medium rounded-md hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
             >
-              {isConverting ? 'Loading...' : 'Load'}
+              {isConverting ? t('sidebar.loading') : t('sidebar.load')}
             </button>
           </div>
           {convertError && <p className='text-xs text-red-500'>{convertError}</p>}
-          <p className='text-xs text-gray-400'>
-            Enter URL and click Load to convert for reliable export
-          </p>
+          <p className='text-xs text-gray-400'>{t('sidebar.urlHint')}</p>
         </div>
       )}
 
@@ -185,7 +186,7 @@ const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
             className='text-gray-400 group-hover:text-indigo-500 mb-2 transition-colors'
           />
           <span className='text-xs text-gray-600 group-hover:text-indigo-700 font-medium'>
-            Click to upload SVG
+            {t('sidebar.clickToUpload')}
           </span>
           <input
             type='file'
@@ -198,7 +199,7 @@ const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
 
       {mode === 'paste' && (
         <textarea
-          placeholder='Paste SVG code or Base64 string...'
+          placeholder={t('sidebar.placeholders.pasteSvg')}
           className='w-full p-2 border rounded-md text-xs font-mono bg-gray-50 text-gray-600 h-24 outline-none focus:ring-2 focus:ring-indigo-500 resize-none'
           onChange={handlePaste}
         />
@@ -207,12 +208,12 @@ const LogoInput: React.FC<LogoInputProps> = ({ value, onChange, isRTL }) => {
       {value && (
         <div className='mt-3 flex items-center gap-2 text-xs text-green-600 bg-green-50 p-2 rounded border border-green-100'>
           <ImageIcon size={14} />
-          <span className='font-medium'>Logo set successfully</span>
+          <span className='font-medium'>{t('sidebar.logoSuccess')}</span>
           <button
             onClick={() => onChange('')}
             className='ml-auto text-green-700 hover:text-green-900 hover:underline'
           >
-            Remove
+            {t('sidebar.remove')}
           </button>
         </div>
       )}
@@ -233,6 +234,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onUpdateNote,
   onDeleteNote,
 }) => {
+  const { t } = useTranslation();
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
 
   React.useEffect(() => {
@@ -256,7 +258,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
     >
       <div className='p-4 border-b bg-gray-50 flex justify-between items-center'>
         <h2 className='text-sm font-bold uppercase text-gray-500 tracking-wider'>
-          Project Details
+          {t('sidebar.projectDetails')}
         </h2>
         <button
           onClick={() => setIsSidebarOpen(false)}
@@ -276,7 +278,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 onChange={(e) =>
                   setData({ ...data, meta: { ...data.meta, title: e.target.value } })
                 }
-                placeholder='Startup Name'
+                placeholder={t('sidebar.placeholders.startupName')}
                 className={`w-full p-2 border rounded-md text-sm text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none ${
                   isRTL ? 'text-right' : 'text-left'
                 }`}
@@ -288,7 +290,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 onChange={(e) =>
                   setData({ ...data, meta: { ...data.meta, caption: e.target.value } })
                 }
-                placeholder='Tagline or Date'
+                placeholder={t('sidebar.placeholders.taglineOrDate')}
                 className={`w-full p-2 border rounded-md text-sm text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none ${
                   isRTL ? 'text-right' : 'text-left'
                 }`}
@@ -303,7 +305,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
 
               <div className='mt-4 pt-4 border-t border-gray-100'>
                 <label className='block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2'>
-                  Canvas Size
+                  {t('sidebar.canvasSize')}
                 </label>
                 <div className='flex gap-2 bg-gray-100 p-1 rounded-md'>
                   {(['A4', 'A3', 'A2', 'A1'] as const).map((size) => (
@@ -324,7 +326,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
 
               <div className='mt-4 pt-4 border-t border-gray-100'>
                 <label className='block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2'>
-                  Note Columns
+                  {t('sidebar.noteColumns')}
                 </label>
                 <div className='flex gap-2 bg-gray-100 p-1 rounded-md'>
                   {([1, 2, 3, 4] as const).map((cols) => (
@@ -353,6 +355,12 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                   }
                 />
               </div>
+
+              <FontSelector
+                fonts={data.meta.fonts}
+                onChange={(fonts) => setData({ ...data, meta: { ...data.meta, fonts } })}
+                isRTL={isRTL}
+              />
             </div>
           </div>
         )}
@@ -378,7 +386,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 >
                   <div className='p-3 bg-gray-100 border-b flex justify-between items-center'>
                     <span className='font-bold text-sm text-gray-900'>
-                      {isRTL ? block.titleFa : block.titleEn}
+                      {t(`blocks.${blockId}`)}
                     </span>
                     <button
                       onClick={() => onAddNote(blockId)}
@@ -391,7 +399,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                   <div className='p-2 space-y-2'>
                     {block.notes.length === 0 && (
                       <div className='text-center text-gray-400 text-xs py-2 italic'>
-                        No sticky notes
+                        {t('sidebar.noStickyNotes')}
                       </div>
                     )}
                     {block.notes.map((note) => (
@@ -410,7 +418,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                               }`}
                               style={{ backgroundColor: NOTE_COLOR_VALUES[c] }}
                               data-testid={`color-btn-${c}`}
-                              aria-label={`Set color to ${c}`}
+                              aria-label={`${t('sidebar.setColorTo')} ${c}`}
                             />
                           ))}
                           <div className='flex-1' />
@@ -425,7 +433,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                         <input
                           value={note.title}
                           onChange={(e) => onUpdateNote(blockId, note.id, 'title', e.target.value)}
-                          placeholder='Title'
+                          placeholder={t('sidebar.placeholders.title')}
                           className={`w-full text-sm font-bold border-b border-transparent hover:border-gray-200 focus:border-indigo-500 outline-none pb-1 text-gray-900 ${
                             isRTL ? 'text-right' : 'text-left'
                           }`}
@@ -435,7 +443,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                         <textarea
                           value={note.body}
                           onChange={(e) => onUpdateNote(blockId, note.id, 'body', e.target.value)}
-                          placeholder='Details...'
+                          placeholder={t('sidebar.placeholders.details')}
                           rows={2}
                           className={`w-full text-xs text-gray-800 resize-none outline-none ${
                             isRTL ? 'text-right' : 'text-left'

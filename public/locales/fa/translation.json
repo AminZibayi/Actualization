@@ -1,0 +1,75 @@
+{
+  "header": {
+    "title": "EBMC-13",
+    "subtitle": "ساز",
+    "tabGui": "رابط کاربری",
+    "tabYaml": "YAML",
+    "seed": "نمونه",
+    "exportPng": "خروجی PNG",
+    "toggleSidebar": "نوار کناری",
+    "openSidebar": "باز کردن نوار کناری",
+    "closeSidebar": "بستن نوار کناری",
+    "loadExample": "بارگذاری داده نمونه",
+    "toggleLanguage": "تغییر زبان"
+  },
+  "sidebar": {
+    "projectDetails": "جزئیات پروژه",
+    "logo": "لوگو",
+    "canvasSize": "اندازه بوم",
+    "noteColumns": "ستون‌های یادداشت",
+    "backgroundPattern": "الگوی پس‌زمینه",
+    "noStickyNotes": "یادداشتی وجود ندارد",
+    "url": "لینک",
+    "upload": "آپلود",
+    "paste": "جای‌گذاری",
+    "load": "بارگذاری",
+    "loading": "در حال بارگذاری...",
+    "logoSuccess": "لوگو با موفقیت تنظیم شد",
+    "remove": "حذف",
+    "clickToUpload": "برای آپلود SVG کلیک کنید",
+    "urlHint": "آدرس را وارد کرده و برای تبدیل روی بارگذاری کلیک کنید",
+    "loadError": "تصویر بارگذاری نشد. آپلود را امتحان کنید.",
+    "setColorTo": "تنظیم رنگ به",
+    "placeholders": {
+      "startupName": "نام استارتاپ",
+      "taglineOrDate": "شعار یا تاریخ",
+      "logoUrl": "https://example.com/logo.png",
+      "title": "عنوان",
+      "details": "جزئیات...",
+      "pasteSvg": "کد SVG یا رشته Base64 را بچسبانید..."
+    }
+  },
+  "canvas": {
+    "zoomIn": "بزرگنمایی",
+    "zoomOut": "کوچکنمایی",
+    "reset": "بازنشانی",
+    "zoomHint": "اسکرول / پینچ برای زوم • درگ برای جابجایی",
+    "footer": "طراحی شده با EBMC-13 Generator"
+  },
+  "patterns": {
+    "none": "بدون الگو",
+    "paper-fibers": "الیاف کاغذ",
+    "cubes": "مکعب‌ها",
+    "lined-paper": "کاغذ خط‌دار",
+    "bright-squares": "مربع‌های روشن",
+    "grid": "شبکه"
+  },
+  "blocks": {
+    "suppliers": "تامین‌کنندگان",
+    "problem": "مسئله",
+    "primaryFunctions": "فعالیت‌های اصلی",
+    "solution": "راه‌حل",
+    "essentialAssets": "دارایی‌های ضروری",
+    "keyMetrics": "سنجه‌های کلیدی",
+    "valuePropositions": "ارزش پیشنهادی",
+    "unfairAdvantage": "مزیت مطلق",
+    "channels": "کانال‌ها",
+    "customerRelationships": "ارتباط با مشتریان",
+    "customerSegments": "بخش‌های مشتریان",
+    "costStructure": "ساختار هزینه‌ها",
+    "revenueStreams": "جریان‌های درآمدی"
+  },
+  "errors": {
+    "downloadFailed": "تصویر ایجاد نشد. لطفا دوباره تلاش کنید."
+  }
+}

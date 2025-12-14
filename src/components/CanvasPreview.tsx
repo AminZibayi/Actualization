@@ -1,7 +1,10 @@
 'use client';
 
 import React, { forwardRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CanvasData } from '@/types';
+import { useGoogleFonts } from '@/hooks/useGoogleFonts';
+import { DEFAULT_FONTS } from '@/constants/fonts';
 import { CanvasBlock } from './CanvasBlock';
 import {
   Truck,
@@ -37,8 +40,14 @@ const CANVAS_CONFIG = {
 
 export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
   ({ data, isRTL }, ref) => {
+    const { t } = useTranslation();
     const sizeKey = data.meta.canvasSize || 'A4';
     const { width, scale } = CANVAS_CONFIG[sizeKey] || CANVAS_CONFIG.A4;
+
+    // Load Google Fonts
+    useGoogleFonts(data);
+
+    const fonts = data.meta.fonts || DEFAULT_FONTS;
 
     // Adaptive columns logic
     const baseColumns = data.meta.noteColumns || 2;
@@ -60,7 +69,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                 <button
                   onClick={() => zoomIn(0.2)}
                   className='p-2.5 hover:bg-gray-100 rounded-lg text-gray-700 transition-colors'
-                  title='Zoom In'
+                  title={t('canvas.zoomIn')}
                   data-testid='zoom-in'
                 >
                   <ZoomIn size={20} />
@@ -68,7 +77,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                 <button
                   onClick={() => zoomOut(0.2)}
                   className='p-2.5 hover:bg-gray-100 rounded-lg text-gray-700 transition-colors'
-                  title='Zoom Out'
+                  title={t('canvas.zoomOut')}
                   data-testid='zoom-out'
                 >
                   <ZoomOut size={20} />
@@ -76,7 +85,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                 <button
                   onClick={() => resetTransform()}
                   className='p-2.5 hover:bg-gray-100 rounded-lg text-gray-700 transition-colors'
-                  title='Reset'
+                  title={t('canvas.reset')}
                   data-testid='zoom-reset'
                 >
                   <RotateCcw size={20} />
@@ -84,7 +93,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
               </div>
 
               <div className='absolute top-4 right-8 text-gray-500 text-xs hidden lg:block z-50 pointer-events-none select-none bg-white/50 px-3 py-1 rounded-full backdrop-blur-sm'>
-                Scroll / Pinch to zoom • Drag to pan
+                {t('canvas.zoomHint')}
               </div>
 
               <TransformComponent
@@ -111,14 +120,24 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                       <div className={`${isRTL ? 'text-right' : 'text-left'}`}>
                         <h1
                           className='font-extrabold text-gray-900 tracking-tight uppercase'
-                          style={{ fontSize: `${30 * scale}px` }}
+                          style={{
+                            fontSize: `${30 * scale}px`,
+                            fontFamily: isRTL
+                              ? '"Vazirmatn", sans-serif'
+                              : `"${fonts.canvasTitle}", sans-serif`,
+                          }}
                           data-testid='canvas-title'
                         >
                           {data.meta.title}
                         </h1>
                         <p
                           className='text-gray-500 font-medium'
-                          style={{ fontSize: `${14 * scale}px` }}
+                          style={{
+                            fontSize: `${14 * scale}px`,
+                            fontFamily: isRTL
+                              ? '"Vazirmatn", sans-serif'
+                              : `"${fonts.canvasCaption}", sans-serif`,
+                          }}
                           data-testid='canvas-caption'
                         >
                           {data.meta.caption}
@@ -150,6 +169,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={AlertTriangle}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                           <div className='flex-1'>
@@ -160,6 +180,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Truck}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                         </div>
@@ -174,6 +195,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Lightbulb}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                           <div className='flex-[2]'>
@@ -184,6 +206,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Activity}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                         </div>
@@ -198,6 +221,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Gift}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                           <div className='flex-1'>
@@ -208,6 +232,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Shield}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                         </div>
@@ -222,6 +247,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Share2}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                           <div className='flex-[2]'>
@@ -232,6 +258,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Box}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                         </div>
@@ -246,6 +273,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Users}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                           <div className='flex-1'>
@@ -256,6 +284,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               icon={Heart}
                               scale={scale}
                               columns={baseColumns}
+                              fonts={fonts}
                             />
                           </div>
                         </div>
@@ -271,6 +300,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             icon={CreditCard}
                             scale={scale}
                             columns={bottomColumns}
+                            fonts={fonts}
                           />
                         </div>
                         <div className='border-r-2 border-gray-300'>
@@ -281,6 +311,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             icon={BarChart}
                             scale={scale}
                             columns={bottomColumns}
+                            fonts={fonts}
                           />
                         </div>
                         <div>
@@ -291,6 +322,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             icon={Banknote}
                             scale={scale}
                             columns={bottomColumns}
+                            fonts={fonts}
                           />
                         </div>
                       </div>
@@ -301,7 +333,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                       className='p-2 flex justify-between text-gray-400 bg-white'
                       style={{ fontSize: `${10 * scale}px` }}
                     >
-                      <span>Designed with EBMC-13 Generator</span>
+                      <span>{t('canvas.footer')}</span>
                       <span>{new Date().toLocaleDateString()}</span>
                     </div>
 

@@ -1,19 +1,25 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { CanvasData, Note, EditorTab, Language } from '@/types';
+import { useTranslation } from 'react-i18next';
+import { CanvasData, Note, EditorTab } from '@/types';
 import { DEFAULT_DATA, SEED_DATA } from '@/constants';
 import { generateId, deepClone, serializeToYaml, parseYaml } from '@/utils';
 
 export const useCanvasData = () => {
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState<CanvasData>(deepClone(DEFAULT_DATA));
   const [activeTab, setActiveTab] = useState<EditorTab>('editor');
-  const [language, setLanguage] = useState<Language>('en');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [yamlText, setYamlText] = useState('');
   const [downloading, setDownloading] = useState(false);
 
-  const isRTL = language === 'fa';
+  const isRTL = i18n.language === 'fa';
+
+  const toggleLanguage = useCallback(() => {
+    const newLang = i18n.language === 'en' ? 'fa' : 'en';
+    i18n.changeLanguage(newLang);
+  }, [i18n]);
 
   // Sync data to YAML when in editor tab
   const syncYamlFromData = useCallback(() => {
@@ -23,10 +29,19 @@ export const useCanvasData = () => {
   }, [data, activeTab]);
 
   const handleSeed = useCallback(() => {
-    if (confirm('This will overwrite your current canvas with example data. Continue?')) {
+    if (
+      confirm(
+        t('errors.downloadFailed')
+          ? t('errors.downloadFailed').replace(
+              'Could not generate image. Please try again.',
+              'This will overwrite your current canvas with example data. Continue?'
+            )
+          : 'This will overwrite your current canvas with example data. Continue?'
+      )
+    ) {
       setData(deepClone(SEED_DATA));
     }
-  }, []);
+  }, [t]);
 
   const handleYamlChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -98,8 +113,6 @@ export const useCanvasData = () => {
     setData,
     activeTab,
     setActiveTab,
-    language,
-    setLanguage,
     isSidebarOpen,
     setIsSidebarOpen,
     yamlText,
@@ -107,6 +120,7 @@ export const useCanvasData = () => {
     downloading,
     setDownloading,
     isRTL,
+    toggleLanguage,
     syncYamlFromData,
     handleSeed,
     handleYamlChange,
