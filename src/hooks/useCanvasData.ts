@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CanvasData, Note, EditorTab } from '@/types';
-import { DEFAULT_DATA, SEED_DATA } from '@/constants';
+import { DEFAULT_DATA, SEED_DATA, SEED_DATA_FA } from '@/constants';
 import { generateId, deepClone, serializeToYaml, parseYaml } from '@/utils';
 
 export const useCanvasData = () => {
@@ -39,9 +39,9 @@ export const useCanvasData = () => {
           : 'This will overwrite your current canvas with example data. Continue?'
       )
     ) {
-      setData(deepClone(SEED_DATA));
+      setData(deepClone(isRTL ? SEED_DATA_FA : SEED_DATA));
     }
-  }, [t]);
+  }, [t, isRTL]);
 
   const handleYamlChange = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {

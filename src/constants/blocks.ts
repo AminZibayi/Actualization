@@ -220,6 +220,147 @@ export const SEED_DATA: CanvasData = {
   },
 };
 
+export const SEED_DATA_FA: CanvasData = {
+  meta: {
+    title: 'اکواسکوت',
+    caption: 'پلتفرم حمل و نقل برقی شهری',
+    logoUrl: SEED_DATA.meta.logoUrl,
+    canvasSize: 'A4',
+    backgroundPattern: 'lined-paper',
+    noteColumns: 2,
+    fonts: {
+      noteTitle: 'vazirmatn',
+      noteBody: 'vazirmatn',
+      blockTitle: 'vazirmatn',
+      canvasCaption: 'vazirmatn',
+      canvasTitle: 'vazirmatn',
+    },
+  },
+  blocks: {
+    suppliers: {
+      id: 'suppliers',
+      notes: [
+        {
+          id: 's1',
+          title: 'شرکت باتری',
+          body: 'تامین‌کننده سلول‌های لیتیومی برد بلند.',
+          color: 'blue',
+        },
+        { id: 's2', title: 'شورای شهر', body: 'مجوزها و مناطق شارژ.', color: 'yellow' },
+      ],
+    },
+    problem: {
+      id: 'problem',
+      notes: [
+        {
+          id: 'p1',
+          title: 'ترافیک سنگین',
+          body: 'رفت و آمد در مرکز شهر خیلی طول می‌کشد.',
+          color: 'pink',
+        },
+        { id: 'p2', title: 'آلودگی', body: 'ردپای کربنی بالای خودروها.', color: 'pink' },
+      ],
+    },
+    primaryFunctions: {
+      id: 'primaryFunctions',
+      notes: [
+        { id: 'pf1', title: 'مدیریت ناوگان', body: 'شارژ روزانه و تعمیرات.', color: 'green' },
+        { id: 'pf2', title: 'توسعه اپلیکیشن', body: 'تجربه کاربری و ردیابی.', color: 'green' },
+      ],
+    },
+    solution: {
+      id: 'solution',
+      notes: [
+        {
+          id: 'sol1',
+          title: 'اسکوترهای برقی',
+          body: 'قابل استفاده در هر جا، باز کردن قفل با اپ.',
+          color: 'yellow',
+        },
+      ],
+    },
+    essentialAssets: {
+      id: 'essentialAssets',
+      notes: [
+        { id: 'ea1', title: 'ناوگان', body: '۵۰۰ اسکوتر اولیه.', color: 'blue' },
+        {
+          id: 'ea2',
+          title: 'هاب‌های شارژ',
+          body: 'انبارها با موقعیت استراتژیک.',
+          color: 'blue',
+        },
+      ],
+    },
+    keyMetrics: {
+      id: 'keyMetrics',
+      notes: [
+        { id: 'km1', title: 'سفر/روز', body: 'هدف: ۴ سفر برای هر اسکوتر.', color: 'green' },
+        { id: 'km2', title: 'هزینه جذب', body: 'هزینه جذب کاربر < ۵ دلار.', color: 'yellow' },
+      ],
+    },
+    valuePropositions: {
+      id: 'valuePropositions',
+      notes: [
+        { id: 'vp1', title: 'سفر سریع', body: 'دور زدن فوری ترافیک.', color: 'green' },
+        { id: 'vp2', title: 'دوستدار محیط زیست', body: 'سفر بدون آلایندگی.', color: 'green' },
+        { id: 'vp3', title: 'مقرون به صرفه', body: 'ارزان‌تر از اوبر/تاکسی.', color: 'green' },
+      ],
+    },
+    unfairAdvantage: {
+      id: 'unfairAdvantage',
+      notes: [
+        {
+          id: 'ua1',
+          title: 'قرارداد انحصاری',
+          body: 'قرارداد ۳ ساله انحصاری با شهر.',
+          color: 'blue',
+        },
+      ],
+    },
+    channels: {
+      id: 'channels',
+      notes: [
+        { id: 'ch1', title: 'اپلیکیشن موبایل', body: 'استور iOS و اندروید.', color: 'yellow' },
+        {
+          id: 'ch2',
+          title: 'شبکه‌های اجتماعی',
+          body: 'اینفلوئنسرهای محلی اینستاگرام.',
+          color: 'yellow',
+        },
+      ],
+    },
+    customerRelationships: {
+      id: 'customerRelationships',
+      notes: [
+        { id: 'cr1', title: 'خودکار', body: 'سلف‌سرویس از طریق اپ.', color: 'blue' },
+        { id: 'cr2', title: 'چت پشتیبانی', body: 'پشتیبانی ۲۴/۷ درون برنامه‌ای.', color: 'blue' },
+      ],
+    },
+    customerSegments: {
+      id: 'customerSegments',
+      notes: [
+        { id: 'cs1', title: 'کارمندان', body: 'کارمندان اداری روزانه.', color: 'pink' },
+        { id: 'cs2', title: 'دانشجویان', body: 'سفرهای پردیس دانشگاه.', color: 'pink' },
+        { id: 'cs3', title: 'گردشگران', body: 'گشت و گذار در شهر.', color: 'pink' },
+      ],
+    },
+    costStructure: {
+      id: 'costStructure',
+      notes: [
+        { id: 'cst1', title: 'سخت‌افزار', body: 'خرید و استهلاک اسکوتر.', color: 'red' },
+        { id: 'cst2', title: 'شارژ', body: 'برق و نیروی کار "جویسر".', color: 'red' },
+      ],
+    },
+    revenueStreams: {
+      id: 'revenueStreams',
+      notes: [
+        { id: 'rs1', title: 'هزینه بازگشایی', body: '۱ دلار برای شروع هر سفر.', color: 'green' },
+        { id: 'rs2', title: 'دقیقه‌ای', body: '۰.۱۵ دلار برای هر دقیقه سواری.', color: 'green' },
+      ],
+    },
+  },
+};
+
 export const NOTE_COLORS = {
   yellow: 'bg-yellow-100 border-yellow-200 text-yellow-900',
   blue: 'bg-blue-100 border-blue-200 text-blue-900',
