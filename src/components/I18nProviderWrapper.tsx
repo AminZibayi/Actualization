@@ -22,19 +22,26 @@ export const I18nProviderWrapper: React.FC<I18nProviderWrapperProps> = ({ childr
     }
   }, []);
 
-  // Update document direction based on language
+  // Update document direction and font based on language
   useEffect(() => {
-    const updateDirection = () => {
+    const updateDirectionAndFont = () => {
       const isRTL = i18n.language === 'fa';
       document.documentElement.dir = isRTL ? 'rtl' : 'ltr';
       document.documentElement.lang = i18n.language;
+
+      // Toggle font class on body for Persian UI
+      if (isRTL) {
+        document.body.classList.add('font-persian');
+      } else {
+        document.body.classList.remove('font-persian');
+      }
     };
 
-    updateDirection();
-    i18n.on('languageChanged', updateDirection);
+    updateDirectionAndFont();
+    i18n.on('languageChanged', updateDirectionAndFont);
 
     return () => {
-      i18n.off('languageChanged', updateDirection);
+      i18n.off('languageChanged', updateDirectionAndFont);
     };
   }, []);
 

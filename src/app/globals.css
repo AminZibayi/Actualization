@@ -43,3 +43,12 @@ body {
 .dir-ltr {
   direction: ltr;
 }
+
+/* Persian language font */
+.font-persian {
+  font-family: var(--font-vazirmatn), 'Vazirmatn', sans-serif !important;
+}
+
+.font-persian * {
+  font-family: inherit;
+}
