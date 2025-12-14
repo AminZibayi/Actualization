@@ -40,6 +40,10 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
     const sizeKey = data.meta.canvasSize || 'A4';
     const { width, scale } = CANVAS_CONFIG[sizeKey] || CANVAS_CONFIG.A4;
 
+    // Adaptive columns logic
+    const baseColumns = data.meta.noteColumns || 2;
+    const bottomColumns = Math.ceil(baseColumns * 1.5);
+
     return (
       <div className='flex-1 bg-gray-200 overflow-hidden relative flex flex-col h-full'>
         <TransformWrapper
@@ -145,6 +149,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={AlertTriangle}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                           <div className='flex-1'>
@@ -154,6 +159,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Truck}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                         </div>
@@ -167,6 +173,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Lightbulb}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                           <div className='flex-[2]'>
@@ -176,6 +183,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Activity}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                         </div>
@@ -189,6 +197,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Gift}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                           <div className='flex-1'>
@@ -198,6 +207,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Shield}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                         </div>
@@ -211,6 +221,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Share2}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                           <div className='flex-[2]'>
@@ -220,6 +231,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Box}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                         </div>
@@ -233,6 +245,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Users}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                           <div className='flex-1'>
@@ -242,6 +255,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                               className='h-full'
                               icon={Heart}
                               scale={scale}
+                              columns={baseColumns}
                             />
                           </div>
                         </div>
@@ -256,6 +270,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             className='h-full'
                             icon={CreditCard}
                             scale={scale}
+                            columns={bottomColumns}
                           />
                         </div>
                         <div className='border-r-2 border-gray-300'>
@@ -265,6 +280,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             className='h-full'
                             icon={BarChart}
                             scale={scale}
+                            columns={bottomColumns}
                           />
                         </div>
                         <div>
@@ -274,6 +290,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                             className='h-full'
                             icon={Banknote}
                             scale={scale}
+                            columns={bottomColumns}
                           />
                         </div>
                       </div>

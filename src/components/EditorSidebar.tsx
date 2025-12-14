@@ -323,6 +323,29 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
               </div>
 
               <div className='mt-4 pt-4 border-t border-gray-100'>
+                <label className='block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2'>
+                  Note Columns
+                </label>
+                <div className='flex gap-2 bg-gray-100 p-1 rounded-md'>
+                  {([1, 2, 3, 4] as const).map((cols) => (
+                    <button
+                      key={cols}
+                      onClick={() =>
+                        setData({ ...data, meta: { ...data.meta, noteColumns: cols } })
+                      }
+                      className={`flex-1 py-1 text-xs font-medium rounded-sm transition-all ${
+                        (data.meta.noteColumns || 2) === cols
+                          ? 'bg-white text-indigo-600 shadow-sm'
+                          : 'text-gray-500 hover:text-gray-700'
+                      }`}
+                    >
+                      {cols}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className='mt-4 pt-4 border-t border-gray-100'>
                 <PatternSelector
                   value={(data.meta.backgroundPattern as PATTERN_TYPE) || 'none'}
                   onChange={(value) =>

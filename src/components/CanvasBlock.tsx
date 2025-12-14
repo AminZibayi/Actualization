@@ -10,6 +10,7 @@ interface CanvasBlockProps {
   className?: string;
   icon?: React.ElementType;
   scale?: number;
+  columns?: number;
 }
 
 export const CanvasBlock: React.FC<CanvasBlockProps> = ({
@@ -18,6 +19,7 @@ export const CanvasBlock: React.FC<CanvasBlockProps> = ({
   className,
   icon: Icon,
   scale = 1,
+  ...props
 }) => {
   return (
     <div
@@ -45,7 +47,14 @@ export const CanvasBlock: React.FC<CanvasBlockProps> = ({
       <div className='flex-1 w-full relative z-10'>
         <div className='flex flex-wrap gap-2 content-start justify-center'>
           {data.notes.map((note) => (
-            <div key={note.id} className='w-[120px]'>
+            <div
+              key={note.id}
+              style={{
+                width: `calc((100% - ${(props.columns || 2) - 1} * 0.5rem) / ${
+                  props.columns || 2
+                })`,
+              }}
+            >
               <StickyNoteCard note={note} isRTL={isRTL} />
             </div>
           ))}

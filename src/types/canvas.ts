@@ -20,6 +20,7 @@ export interface CanvasMeta {
   logoUrl: string;
   canvasSize: 'A4' | 'A3' | 'A2' | 'A1';
   backgroundPattern?: string;
+  noteColumns?: number;
 }
 
 export interface CanvasData {
