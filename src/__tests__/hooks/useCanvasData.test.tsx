@@ -22,10 +22,11 @@ describe('useCanvasData', () => {
       expect(result.current.activeTab).toBe('editor');
     });
 
-    it('initializes with English language', () => {
-      const { result } = renderHook(() => useCanvasData());
-      expect(result.current.language).toBe('en');
-    });
+    // language property removed from hook
+    // it('initializes with English language', () => {
+    //   const { result } = renderHook(() => useCanvasData());
+    //   expect(result.current.language).toBe('en');
+    // });
 
     it('initializes with sidebar open', () => {
       const { result } = renderHook(() => useCanvasData());
@@ -165,15 +166,16 @@ describe('useCanvasData', () => {
     });
   });
 
-  describe('language toggle', () => {
-    it('toggles isRTL when language changes to Persian', () => {
-      const { result } = renderHook(() => useCanvasData());
+  // describe('language toggle', () => {
+  //   it('toggles isRTL when language changes to Persian', () => {
+  //     const { result } = renderHook(() => useCanvasData());
 
-      act(() => {
-        result.current.setLanguage('fa');
-      });
+  //     act(() => {
+  //       // @ts-ignore
+  //       result.current.setLanguage('fa');
+  //     });
 
-      expect(result.current.isRTL).toBe(true);
-    });
-  });
+  //     expect(result.current.isRTL).toBe(true);
+  //   });
+  // });
 });

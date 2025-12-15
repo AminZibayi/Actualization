@@ -15,12 +15,28 @@ Object.defineProperty(window, 'matchMedia', {
   })),
 });
 
-// Mock html2canvas
-jest.mock('html2canvas', () => ({
-  __esModule: true,
-  default: jest.fn().mockResolvedValue({
-    toDataURL: jest.fn().mockReturnValue('data:image/png;base64,mock'),
+// Mock @zumer/snapdom
+jest.mock('@zumer/snapdom', () => ({
+  snapdom: jest.fn().mockResolvedValue({
+    download: jest.fn().mockResolvedValue(undefined),
+    toPng: jest.fn().mockResolvedValue(document.createElement('img')),
   }),
+}));
+
+// Mock react-i18next
+jest.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+    i18n: {
+      language: 'en',
+      changeLanguage: jest.fn(),
+      dir: jest.fn(() => 'ltr'),
+    },
+  }),
+  initReactI18next: {
+    type: '3rdParty',
+    init: jest.fn(),
+  },
 }));
 
 // Mock js-yaml

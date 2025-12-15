@@ -19,7 +19,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "html2canvas": "^1.4.1",
+    "@zumer/snapdom": "^2.0.1",
     "i18next": "^25.7.2",
     "i18next-browser-languagedetector": "^8.2.0",
     "js-yaml": "^4.1.0",

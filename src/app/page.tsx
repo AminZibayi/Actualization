@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import html2canvas from 'html2canvas';
+import { snapdom } from '@zumer/snapdom';
 import { Header, EditorSidebar, CanvasPreview } from '@/components';
 import { useCanvasData } from '@/hooks';
 
@@ -113,44 +113,37 @@ export default function Home() {
         }
       }
 
-      // 4. Capture
-      const canvas = await html2canvas(clone, {
-        scale: scale, // Use dynamic safe scale
-        useCORS: true,
-        backgroundColor: '#ffffff',
+      // Pre-process the clone to handle the logo
+      const clonedLogo = clone.querySelector('img[data-testid="canvas-logo"]') as HTMLImageElement;
+
+      if (clonedLogo && logoWidth && logoHeight) {
+        // Set explicit dimensions
+        clonedLogo.style.width = `${Math.round(logoWidth)}px`;
+        clonedLogo.style.height = `${Math.round(logoHeight)}px`;
+        clonedLogo.style.objectFit = 'fill';
+        clonedLogo.width = Math.round(logoWidth);
+        clonedLogo.height = Math.round(logoHeight);
+
+        // If we successfully created a data URL, use it
+        if (logoDataUrl) {
+          clonedLogo.src = logoDataUrl;
+        }
+      }
+
+      // 4. Capture with SnapDOM
+      const result = await snapdom(clone, {
+        scale: scale,
         width: targetWidth,
         height: targetHeight,
-        windowWidth: targetWidth,
-        windowHeight: targetHeight,
-        onclone: (_clonedDoc, clonedEl) => {
-          // Replace logo with our pre-rendered version
-          const clonedLogo = clonedEl.querySelector(
-            'img[data-testid="canvas-logo"]'
-          ) as HTMLImageElement;
-
-          if (clonedLogo && logoWidth && logoHeight) {
-            // Set explicit dimensions
-            clonedLogo.style.width = `${Math.round(logoWidth)}px`;
-            clonedLogo.style.height = `${Math.round(logoHeight)}px`;
-            clonedLogo.style.objectFit = 'fill';
-            clonedLogo.width = Math.round(logoWidth);
-            clonedLogo.height = Math.round(logoHeight);
-
-            // If we successfully created a data URL, use it
-            if (logoDataUrl) {
-              clonedLogo.src = logoDataUrl;
-            }
-          }
-        },
+        backgroundColor: '#ffffff',
       });
 
-      // 5. Cleanup
-      document.body.removeChild(container);
+      // 5. Download
+      const fileName = `EBMC-13-${data.meta.title.replace(/\s+/g, '-')}`;
+      await result.download({ filename: fileName, type: 'png' });
 
-      const link = document.createElement('a');
-      link.download = `EBMC-13-${data.meta.title.replace(/\s+/g, '-')}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      // 6. Cleanup
+      document.body.removeChild(container);
     } catch (e) {
       console.error('Download failed', e);
       alert(t('errors.downloadFailed'));

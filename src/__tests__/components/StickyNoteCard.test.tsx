@@ -58,17 +58,26 @@ describe('StickyNoteCard', () => {
     expect(onDelete).toHaveBeenCalledTimes(1);
   });
 
-  it('applies RTL font family when isRTL is true', () => {
-    render(<StickyNoteCard note={mockNote} isRTL={true} />);
-    const card = screen.getByTestId('sticky-note');
-    const style = card.getAttribute('style');
+  it('applies provided fonts', () => {
+    const fonts = {
+      noteTitle: 'Vazirmatn',
+      noteBody: 'Vazirmatn',
+      handwriting: 'Vazirmatn',
+      ui: 'Vazirmatn',
+      canvasTitle: 'Vazirmatn',
+      canvasCaption: 'Vazirmatn',
+      blockTitle: 'Vazirmatn',
+    };
+    render(<StickyNoteCard note={mockNote} isRTL={true} fonts={fonts} />);
+    const title = screen.getByTestId('note-title');
+    const style = title.getAttribute('style');
     expect(style).toContain('Vazirmatn');
   });
 
-  it('applies LTR font family when isRTL is false', () => {
+  it('uses default font when no custom fonts provided', () => {
     render(<StickyNoteCard note={mockNote} isRTL={false} />);
-    const card = screen.getByTestId('sticky-note');
-    const style = card.getAttribute('style');
+    const title = screen.getByTestId('note-title');
+    const style = title.getAttribute('style');
     expect(style).toContain('Gloria Hallelujah');
   });
 });
