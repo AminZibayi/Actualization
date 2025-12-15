@@ -156,43 +156,55 @@ export default function Home() {
 
   return (
     <div
-      className={`h-screen overflow-hidden bg-gray-50 flex flex-col font-sans ${isRTL ? 'dir-rtl' : 'dir-ltr'}`}
+      className={`relative h-screen w-screen overflow-hidden bg-gray-50 font-sans ${isRTL ? 'dir-rtl' : 'dir-ltr'}`}
     >
-      <Header
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        isSidebarOpen={isSidebarOpen}
-        setIsSidebarOpen={setIsSidebarOpen}
-        onToggleLanguage={toggleLanguage}
-        onSeed={handleSeed}
-        onDownload={handleDownload}
-        downloading={downloading}
-      />
-
-      <main className='flex-1 flex flex-col lg:flex-row overflow-hidden relative'>
-        <EditorSidebar
-          data={data}
-          setData={setData}
-          activeTab={activeTab}
-          yamlText={yamlText}
-          onYamlChange={handleYamlChange}
-          isRTL={isRTL}
-          isSidebarOpen={isSidebarOpen}
-          setIsSidebarOpen={setIsSidebarOpen}
-          onAddNote={addNote}
-          onUpdateNote={updateNote}
-          onDeleteNote={deleteNote}
-        />
-
+      {/* Canvas Background Layer */}
+      <div className='absolute inset-0 z-0'>
         <CanvasPreview ref={canvasRef} data={data} isRTL={isRTL} />
-      </main>
+      </div>
+
+      {/* UI Overlay Layer */}
+      <div className='absolute inset-0 z-10 pointer-events-none'>
+        {/* Header Container - Top Aligned */}
+        <div className='w-full pointer-events-auto'>
+          <Header
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+            onToggleLanguage={toggleLanguage}
+            onSeed={handleSeed}
+            onDownload={handleDownload}
+            downloading={downloading}
+          />
+        </div>
+
+        {/* Sidebar Container - Floating on Left aligned with header or just below */}
+        <div
+          className={`absolute top-24 bottom-0 ${isRTL ? 'right-0' : 'left-0'} pointer-events-auto flex items-stretch pb-4 px-4`}
+        >
+          <EditorSidebar
+            data={data}
+            setData={setData}
+            activeTab={activeTab}
+            yamlText={yamlText}
+            onYamlChange={handleYamlChange}
+            isRTL={isRTL}
+            isSidebarOpen={isSidebarOpen}
+            setIsSidebarOpen={setIsSidebarOpen}
+            onAddNote={addNote}
+            onUpdateNote={updateNote}
+            onDeleteNote={deleteNote}
+          />
+        </div>
+      </div>
 
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: #f1f1f1;
+          background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
           background: #c7c7c7;

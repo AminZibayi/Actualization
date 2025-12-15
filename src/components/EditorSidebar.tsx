@@ -258,11 +258,11 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   return (
     <aside
       className={`
-        bg-white border-r border-gray-200 flex flex-col z-10 shadow-xl overflow-hidden transition-all duration-300 ease-in-out
+        bg-white rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-200 flex flex-col z-10 overflow-hidden transition-all duration-300 ease-in-out h-full
         ${
           isSidebarOpen
-            ? 'w-full lg:w-96 translate-x-0'
-            : 'w-0 -translate-x-full lg:translate-x-0 lg:w-0 opacity-0 lg:opacity-100'
+            ? 'w-full lg:w-96 translate-x-0 opacity-100 ml-0'
+            : 'w-0 -translate-x-4 opacity-0 lg:w-0'
         }
       `}
       data-testid='editor-sidebar'
