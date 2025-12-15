@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { CanvasFonts, CanvasData } from '@/types';
+import { CanvasData } from '@/types';
 
 // Cache to keep track of loaded fonts to avoid duplicate requests
 const loadedFonts = new Set<string>();
@@ -26,7 +26,6 @@ export const useGoogleFonts = (data: CanvasData) => {
       .map((font) => `family=${font.replace(/ /g, '+')}:wght@400;700`)
       .join('&');
 
-    const linkId = 'ebmc-google-fonts';
     const url = `https://fonts.googleapis.com/css2?${families}&display=swap`;
 
     // Check if we already have a link tag, if so, we might need to append to it or replace it
