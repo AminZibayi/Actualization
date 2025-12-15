@@ -49,24 +49,31 @@ export const FontSelector: React.FC<FontSelectorProps> = ({ fonts, onChange, isR
   }) => (
     <div className='flex flex-col gap-1.5 mb-3'>
       {label && <span className='text-xs text-gray-500 font-semibold'>{label}</span>}
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`w-full px-4 py-3 border border-gray-200 rounded-xl text-sm bg-white/80 focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 outline-none transition-all duration-200 cursor-pointer hover:border-gray-300 ${
-          isRTL ? 'text-right' : 'text-left'
-        }`}
-        dir='ltr' // Font names are always LTR
-      >
-        {categories.map((category) => (
-          <optgroup key={category} label={category.toUpperCase()}>
-            {GOOGLE_FONTS.filter((f) => f.category === category).map((font) => (
-              <option key={font.value} value={font.value}>
-                {font.label}
-              </option>
-            ))}
-          </optgroup>
-        ))}
-      </select>
+      <div className='relative'>
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={`w-full px-4 py-3 border border-gray-200 rounded-xl text-sm bg-white/80 focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 outline-none transition-all duration-200 cursor-pointer hover:border-gray-300 appearance-none ${
+            isRTL ? 'text-right' : 'text-left'
+          }`}
+          dir='ltr' // Font names are always LTR
+        >
+          {categories.map((category) => (
+            <optgroup key={category} label={category.toUpperCase()}>
+              {GOOGLE_FONTS.filter((f) => f.category === category).map((font) => (
+                <option key={font.value} value={font.value}>
+                  {font.label}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+        <div
+          className={`absolute top-1/2 -translate-y-1/2 pointer-events-none text-gray-400 ${isRTL ? 'left-3' : 'right-3'}`}
+        >
+          <ChevronDown size={16} />
+        </div>
+      </div>
     </div>
   );
 
