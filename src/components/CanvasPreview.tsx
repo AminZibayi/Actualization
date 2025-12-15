@@ -92,7 +92,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                 </button>
               </div>
 
-              <div className='absolute top-4 right-8 text-gray-500 text-xs hidden lg:block z-50 pointer-events-none select-none bg-white/50 px-3 py-1 rounded-full backdrop-blur-sm'>
+              <div className='absolute bottom-24 right-8 text-gray-500 text-xs hidden lg:block z-50 pointer-events-none select-none bg-white/50 px-3 py-1 rounded-full backdrop-blur-sm'>
                 {t('canvas.zoomHint')}
               </div>
 
