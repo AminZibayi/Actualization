@@ -11,14 +11,14 @@ export const PatternSelector: React.FC<PatternSelectorProps> = ({ value, onChang
   const { t } = useTranslation();
 
   return (
-    <div className='bg-white p-4 rounded-lg shadow-sm border border-gray-200'>
-      <label className='block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2'>
+    <div className='bg-white/60 p-4 rounded-xl border border-gray-200/80 shadow-sm hover:shadow-md transition-all duration-200'>
+      <label className='block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3'>
         {t('sidebar.backgroundPattern')}
       </label>
       <select
         value={value || 'none'}
         onChange={(e) => onChange(e.target.value as PATTERN_TYPE)}
-        className='w-full p-2 border rounded-md text-sm text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none'
+        className='w-full px-4 py-3 border border-gray-200 rounded-xl text-sm text-gray-900 bg-white/80 focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 outline-none transition-all duration-200 cursor-pointer hover:border-gray-300'
       >
         {PATTERNS.map((pattern) => (
           <option key={pattern.value} value={pattern.value}>

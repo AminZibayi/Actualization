@@ -181,7 +181,7 @@ export default function Home() {
 
         {/* Sidebar Container - Floating on Left aligned with header or just below */}
         <div
-          className={`absolute top-24 bottom-0 ${isRTL ? 'right-0' : 'left-0'} pointer-events-auto flex items-stretch pb-4 px-4`}
+          className={`absolute top-20 bottom-0 ${isRTL ? 'right-0' : 'left-0'} pointer-events-auto flex items-stretch pb-4 px-4`}
         >
           <EditorSidebar
             data={data}
