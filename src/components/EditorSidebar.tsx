@@ -10,6 +10,9 @@ import {
   Upload,
   FileText,
   Image as ImageIcon,
+  Settings,
+  AlertTriangle,
+  RotateCcw,
 } from 'lucide-react';
 import { CanvasData, EditorTab, Note, NoteColor } from '@/types';
 import { BLOCK_IDS, NOTE_COLOR_VALUES, PATTERN_TYPE } from '@/constants';
@@ -235,7 +238,15 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   onDeleteNote,
 }) => {
   const { t } = useTranslation();
+  const [isAdvancedOpen, setIsAdvancedOpen] = React.useState(false);
   const textAreaRef = React.useRef<HTMLTextAreaElement>(null);
+
+  const handleResetData = () => {
+    if (window.confirm(t('sidebar.advanced.resetConfirm'))) {
+      localStorage.clear();
+      window.location.reload();
+    }
+  };
 
   React.useEffect(() => {
     if (activeTab === 'yaml' && textAreaRef.current) {
@@ -361,6 +372,74 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
                 onChange={(fonts) => setData({ ...data, meta: { ...data.meta, fonts } })}
                 isRTL={isRTL}
               />
+
+              <div className='mt-8 pt-4 border-t border-gray-200'>
+                <button
+                  onClick={() => setIsAdvancedOpen(!isAdvancedOpen)}
+                  className='flex items-center justify-between w-full text-left'
+                >
+                  <div className='flex items-center text-gray-700 font-bold text-xs uppercase tracking-wider'>
+                    <Settings size={14} className='mr-2' />
+                    {t('sidebar.advanced.title')}
+                  </div>
+                  <ChevronLeft
+                    size={14}
+                    className={`transform transition-transform text-gray-400 ${
+                      isAdvancedOpen ? '-rotate-90' : 'rotate-180'
+                    }`}
+                  />
+                </button>
+
+                {isAdvancedOpen && (
+                  <div className='mt-4 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200'>
+                    <div className='space-y-2'>
+                      <label className='block text-xs font-medium text-gray-600'>
+                        {t('sidebar.advanced.exportScale')}
+                      </label>
+                      <div className='flex items-center gap-2'>
+                        <input
+                          type='number'
+                          step='0.1'
+                          min='0.1'
+                          max='10'
+                          placeholder='Auto'
+                          value={data.meta.advanced?.exportScale || ''}
+                          onChange={(e) => {
+                            const val = parseFloat(e.target.value);
+                            setData({
+                              ...data,
+                              meta: {
+                                ...data.meta,
+                                advanced: {
+                                  ...data.meta.advanced,
+                                  exportScale: isNaN(val) ? undefined : val,
+                                },
+                              },
+                            });
+                          }}
+                          className={`w-full p-2 border rounded-md text-sm text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none ${
+                            isRTL ? 'text-right' : 'text-left'
+                          }`}
+                          dir='ltr'
+                        />
+                      </div>
+                      <div className='flex items-start gap-1 p-2 bg-amber-50 text-amber-800 rounded text-xs border border-amber-200'>
+                        <AlertTriangle size={12} className='mt-0.5 shrink-0' />
+                        {t('sidebar.advanced.scaleWarning')}
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={handleResetData}
+                      className='w-full p-2 text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 flex items-center justify-center gap-2 transition-colors'
+                      data-testid='reset-data-btn'
+                    >
+                      <RotateCcw size={14} />
+                      {t('sidebar.advanced.resetData')}
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

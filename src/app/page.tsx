@@ -55,11 +55,13 @@ export default function Home() {
       const targetWidth = config[sizeKey]?.width || 1400;
       const targetHeight = targetWidth / 1.414; // A-series landscape ratio
 
-      // Calculate a safe scale to prevent browser crashes/black screens on large canvases
-      // We aim for a maximum width of around 4000px which offers great quality (4K)
-      // without exhausting GPU memory.
+      // 1. Determine scale
+      // Check for user override first
+      const exportScale = data.meta.advanced?.exportScale;
+
       const MAX_SAFE_WIDTH = 4500;
-      const scale = Math.min(2, MAX_SAFE_WIDTH / targetWidth);
+      // If override exists, use it. Otherwise calculate safe scale.
+      const scale = exportScale || Math.min(2, MAX_SAFE_WIDTH / targetWidth);
 
       // 1. Clone the node
       const element = canvasRef.current;
