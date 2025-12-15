@@ -1,7 +1,7 @@
 {
   "header": {
-    "title": "EBMC-13",
-    "subtitle": "Generator",
+    "title": "The Actualization",
+    "subtitle": "Canvas",
     "tabGui": "GUI",
     "tabYaml": "YAML",
     "seed": "Seed",
@@ -61,7 +61,7 @@
     "zoomOut": "Zoom Out",
     "reset": "Reset",
     "zoomHint": "Scroll / Pinch to zoom • Drag to pan",
-    "footer": "Designed with EBMC-13 Generator"
+    "footer": "Designed with The Actualization Canvas"
   },
   "patterns": {
     "none": "None",

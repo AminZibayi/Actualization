@@ -23,14 +23,14 @@ const vazirmatn = Vazirmatn({
 });
 
 export const metadata: Metadata = {
-  title: 'EBMC-13 Generator | Extended Business Model Canvas',
+  title: 'The Actualization Canvas',
   description:
-    'Generate extended business model canvas with 13 blocks. Supports sticky notes, YAML import/export, and PNG export.',
-  keywords: ['business model canvas', 'EBMC', 'startup', 'strategy', 'lean canvas'],
-  authors: [{ name: 'EBMC Generator' }],
+    'Visualize your strategic vision with an intuitive canvas. Supports sticky notes, YAML import/export, and PNG export.',
+  keywords: ['actualization canvas', 'strategy canvas', 'startup', 'strategy', 'lean canvas'],
+  authors: [{ name: 'The Actualization Canvas' }],
   openGraph: {
-    title: 'EBMC-13 Generator',
-    description: 'Extended Business Model Canvas Generator with 13 blocks',
+    title: 'The Actualization Canvas',
+    description: 'Visualize your strategic vision with an intuitive canvas',
     type: 'website',
   },
 };

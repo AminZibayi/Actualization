@@ -21,7 +21,7 @@ export type BlockId = (typeof BLOCK_IDS)[number];
 export const DEFAULT_DATA: CanvasData = {
   meta: {
     title: 'My Awesome Startup',
-    caption: 'EBMC-13 Strategy Canvas',
+    caption: 'Strategic Actualization Canvas',
     logoUrl: '',
     canvasSize: 'A4',
     backgroundPattern: 'paper-fibers',

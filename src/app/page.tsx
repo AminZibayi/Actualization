@@ -139,7 +139,7 @@ export default function Home() {
       });
 
       // 5. Download
-      const fileName = `EBMC-13-${data.meta.title.replace(/\s+/g, '-')}`;
+      const fileName = `actualization-canvas-${data.meta.title.replace(/\s+/g, '-')}`;
       await result.download({ filename: fileName, type: 'png' });
 
       // 6. Cleanup

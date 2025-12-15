@@ -1,7 +1,7 @@
 {
   "header": {
-    "title": "EBMC-13",
-    "subtitle": "ساز",
+    "title": "بوم تحقق",
+    "subtitle": "",
     "tabGui": "رابط کاربری",
     "tabYaml": "YAML",
     "seed": "نمونه",
@@ -61,7 +61,7 @@
     "zoomOut": "کوچکنمایی",
     "reset": "بازنشانی",
     "zoomHint": "اسکرول / پینچ برای زوم • درگ برای جابجایی",
-    "footer": "طراحی شده با EBMC-13 Generator"
+    "footer": "طراحی شده با بوم تحقق"
   },
   "patterns": {
     "none": "بدون الگو",
