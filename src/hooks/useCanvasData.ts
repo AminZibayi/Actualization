@@ -29,16 +29,7 @@ export const useCanvasData = () => {
   }, [data, activeTab]);
 
   const handleSeed = useCallback(() => {
-    if (
-      confirm(
-        t('errors.downloadFailed')
-          ? t('errors.downloadFailed').replace(
-              'Could not generate image. Please try again.',
-              'This will overwrite your current canvas with example data. Continue?'
-            )
-          : 'This will overwrite your current canvas with example data. Continue?'
-      )
-    ) {
+    if (confirm(t('header.confirmLoadExample'))) {
       setData(deepClone(isRTL ? SEED_DATA_FA : SEED_DATA));
     }
   }, [t, isRTL]);

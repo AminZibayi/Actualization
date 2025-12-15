@@ -10,7 +10,8 @@
     "openSidebar": "Open Sidebar",
     "closeSidebar": "Close Sidebar",
     "loadExample": "Load Example Data",
-    "toggleLanguage": "Toggle Language"
+    "toggleLanguage": "Toggle Language",
+    "confirmLoadExample": "This will overwrite your current canvas with example data. Continue?"
   },
   "sidebar": {
     "projectDetails": "Project Details",

@@ -10,7 +10,8 @@
     "openSidebar": "باز کردن نوار کناری",
     "closeSidebar": "بستن نوار کناری",
     "loadExample": "بارگذاری داده نمونه",
-    "toggleLanguage": "تغییر زبان"
+    "toggleLanguage": "تغییر زبان",
+    "confirmLoadExample": "این کار داده‌های فعلی بوم شما را با داده‌های نمونه جایگزین می‌کند. ادامه می‌دهید؟"
   },
   "sidebar": {
     "projectDetails": "جزئیات پروژه",
