@@ -338,7 +338,7 @@ export const CanvasPreview = forwardRef<HTMLDivElement, CanvasPreviewProps>(
                       <div
                         className='absolute inset-0 pointer-events-none z-0 mix-blend-multiply opacity-40'
                         style={{
-                          backgroundImage: `url('/patterns/${data.meta.backgroundPattern}.png')`,
+                          backgroundImage: `url('${process.env.NEXT_PUBLIC_BASE_PATH || ''}/patterns/${data.meta.backgroundPattern}.png')`,
                           backgroundRepeat: 'repeat',
                         }}
                       />
