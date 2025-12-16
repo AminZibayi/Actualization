@@ -2,8 +2,7 @@
 
 **Actualization Canvas** is a powerful, interactive tool designed for creating, managing, and visualizing business models and strategic plans. Built with modern web technologies, it offers a dual-mode editing experience (GUI and YAML) and real-time canvas previewing, making it easier than ever to bring your ideas to life.
 
-![Canvas Preview](./public/preview.png)
-_(Note: Add a screenshot of the application here if available)_
+![Canvas Preview](./public/media/screenshot.png)
 
 ## Features
 
