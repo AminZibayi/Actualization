@@ -1,6 +1,7 @@
 {
   "name": "actualization-canvas",
   "version": "0.1.0",
+  "homepage": "https://aminzibayi.github.io/Actualization",
   "private": true,
   "scripts": {
     "dev": "next dev",
