@@ -120,11 +120,7 @@ src/
 
 ## Contributing
 
-Contributions are welcome! Please ensure you:
-
-1. Follow the existing code style (Prettier/ESLint).
-2. Write clear commit messages (enforced by Commitlint).
-3. Update tests as needed.
+Contributions are welcome! See [CONTRIBUTING](CONTRIBUTING.md)
 
 ## License
 
