@@ -259,3 +259,19 @@ body {
 .stagger-5 {
   animation-delay: 250ms;
 }
+
+/* Mobile vertical bar animations */
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%) translateY(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) translateY(-50%);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight var(--transition-smooth) ease-out forwards;
+}

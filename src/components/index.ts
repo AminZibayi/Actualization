@@ -5,3 +5,4 @@ export { EditorSidebar } from './EditorSidebar';
 export { CanvasPreview } from './CanvasPreview';
 export { I18nProviderWrapper } from './I18nProviderWrapper';
 export { FontSelector } from './FontSelector';
+export { MobileControlBar } from './MobileControlBar';

@@ -3,7 +3,7 @@
 import { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { snapdom } from '@zumer/snapdom';
-import { Header, EditorSidebar, CanvasPreview } from '@/components';
+import { Header, EditorSidebar, CanvasPreview, MobileControlBar } from '@/components';
 import { useCanvasData } from '@/hooks';
 
 export default function Home() {
@@ -197,6 +197,19 @@ export default function Home() {
             onDeleteNote={deleteNote}
           />
         </div>
+
+        {/* Mobile Control Bars - Vertical floating bars on mobile */}
+        <MobileControlBar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          isSidebarOpen={isSidebarOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
+          onToggleLanguage={toggleLanguage}
+          onSeed={handleSeed}
+          onDownload={handleDownload}
+          downloading={downloading}
+          isRTL={isRTL}
+        />
       </div>
 
       <style jsx global>{`

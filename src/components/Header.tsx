@@ -61,10 +61,8 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Center Island: Tabs (Visible on larger screens usually) */}
-      <div
-        className={`${islandClass} stagger-2 ${!isSidebarOpen && 'hidden md:flex'} bg-white/40 backdrop-blur-md`}
-      >
+      {/* Center Island: Tabs (Hidden on mobile, shown as vertical bar) */}
+      <div className={`${islandClass} stagger-2 hidden lg:flex bg-white/40 backdrop-blur-md`}>
         <div className='flex p-1 bg-gray-100/50 rounded-lg relative'>
           {/* Animated background pill could go here, but outline style requested. */}
           {/* We will use a clean outline style with state transition animation */}
@@ -111,8 +109,8 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Right Island: Actions */}
-      <div className={`${islandClass} stagger-3`}>
+      {/* Right Island: Actions (Hidden on mobile, shown as vertical bar) */}
+      <div className={`${islandClass} stagger-3 hidden lg:flex`}>
         <button
           onClick={onSeed}
           className={`${btnClass} group relative overflow-hidden`}
