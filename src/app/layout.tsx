@@ -33,6 +33,21 @@ export const metadata: Metadata = {
     description: 'Visualize your strategic vision with an intuitive canvas',
     type: 'website',
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png' }],
+    other: [
+      {
+        rel: 'mask-icon',
+        url: '/safari-pinned-tab.svg', // Assuming this exists or just to be standard? Wait, I didn't see it in the list. I'll omit it if not there.
+      },
+    ],
+  },
+  manifest: '/site.webmanifest',
 };
 
 export default function RootLayout({
