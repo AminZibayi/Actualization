@@ -31,6 +31,8 @@
     "urlHint": "Enter URL and click Load to convert for reliable export",
     "loadError": "Could not load image. Try uploading instead.",
     "setColorTo": "Set color to",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit Fullscreen",
     "placeholders": {
       "startupName": "Startup Name",
       "taglineOrDate": "Tagline or Date",

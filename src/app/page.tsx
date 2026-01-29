@@ -17,6 +17,8 @@ export default function Home() {
     setActiveTab,
     isSidebarOpen,
     setIsSidebarOpen,
+    isFullscreen,
+    setIsFullscreen,
     yamlText,
     yamlErrors,
     downloading,
@@ -182,7 +184,9 @@ export default function Home() {
 
         {/* Sidebar Container - Floating on Left aligned with header or just below */}
         <div
-          className={`absolute top-20 bottom-0 ${isRTL ? 'right-0' : 'left-0'} pointer-events-auto flex items-stretch pb-4 px-4`}
+          className={`absolute top-20 bottom-0 ${isRTL ? 'right-0' : 'left-0'} pointer-events-auto flex items-stretch pb-4 px-4 ${
+            isFullscreen ? 'left-0 right-0' : ''
+          }`}
         >
           <EditorSidebar
             data={data}
@@ -194,6 +198,8 @@ export default function Home() {
             isRTL={isRTL}
             isSidebarOpen={isSidebarOpen}
             setIsSidebarOpen={setIsSidebarOpen}
+            isFullscreen={isFullscreen}
+            setIsFullscreen={setIsFullscreen}
             onAddNote={addNote}
             onUpdateNote={updateNote}
             onDeleteNote={deleteNote}

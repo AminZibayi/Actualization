@@ -31,6 +31,8 @@
     "urlHint": "آدرس را وارد کرده و برای تبدیل روی بارگذاری کلیک کنید",
     "loadError": "تصویر بارگذاری نشد. آپلود را امتحان کنید.",
     "setColorTo": "تنظیم رنگ به",
+    "fullscreen": "تمام صفحه",
+    "exitFullscreen": "خروج از تمام صفحه",
     "placeholders": {
       "startupName": "نام استارتاپ",
       "taglineOrDate": "شعار یا تاریخ",

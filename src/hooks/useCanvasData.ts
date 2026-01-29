@@ -11,6 +11,7 @@ export const useCanvasData = () => {
   const [data, setData] = useState<CanvasData>(deepClone(DEFAULT_DATA));
   const [activeTab, setActiveTab] = useState<EditorTab>('editor');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [yamlText, setYamlText] = useState('');
   const [yamlErrors, setYamlErrors] = useState<YamlError[]>([]);
   const [downloading, setDownloading] = useState(false);
@@ -111,6 +112,8 @@ export const useCanvasData = () => {
     setActiveTab,
     isSidebarOpen,
     setIsSidebarOpen,
+    isFullscreen,
+    setIsFullscreen,
     yamlText,
     setYamlText,
     yamlErrors,

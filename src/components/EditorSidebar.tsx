@@ -13,6 +13,8 @@ import {
   Settings,
   AlertTriangle,
   RotateCcw,
+  Maximize,
+  Minimize,
 } from 'lucide-react';
 import { CanvasData, EditorTab, Note, NoteColor, YamlError } from '@/types';
 import { BLOCK_IDS, NOTE_COLOR_VALUES, PATTERN_TYPE } from '@/constants';
@@ -30,6 +32,8 @@ interface EditorSidebarProps {
   isRTL: boolean;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (open: boolean) => void;
+  isFullscreen: boolean;
+  setIsFullscreen: (fullscreen: boolean) => void;
   onAddNote: (blockId: string) => void;
   onUpdateNote: (blockId: string, noteId: string, field: keyof Note, value: string) => void;
   onDeleteNote: (blockId: string, noteId: string) => void;
@@ -237,6 +241,8 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   isRTL,
   isSidebarOpen,
   setIsSidebarOpen,
+  isFullscreen,
+  setIsFullscreen,
   onAddNote,
   onUpdateNote,
   onDeleteNote,
@@ -262,12 +268,14 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   return (
     <aside
       className={`
-        glass-card rounded-2xl flex flex-col z-10 overflow-hidden h-full
+        glass-card rounded-2xl flex flex-col overflow-hidden
         transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]
         ${
           isSidebarOpen
-            ? 'w-full lg:w-[400px] translate-x-0 opacity-100 ml-0 animate-scale-in'
-            : 'w-0 -translate-x-4 opacity-0 lg:w-0'
+            ? isFullscreen
+              ? 'fixed inset-0 w-full h-full z-50 translate-x-0 opacity-100 m-0 animate-scale-in'
+              : 'w-full lg:w-[400px] h-full z-10 translate-x-0 opacity-100 ml-0 animate-scale-in'
+            : 'w-0 h-full -translate-x-4 opacity-0 lg:w-0'
         }
       `}
       data-testid='editor-sidebar'
@@ -276,13 +284,23 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
         <h2 className='text-xs font-bold uppercase text-indigo-600/80 tracking-widest'>
           {t('sidebar.projectDetails')}
         </h2>
-        <button
-          onClick={() => setIsSidebarOpen(false)}
-          className='lg:hidden p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 btn-press'
-          data-testid='close-sidebar-btn'
-        >
-          <ChevronLeft size={18} />
-        </button>
+        <div className='flex items-center gap-2'>
+          <button
+            onClick={() => setIsFullscreen(!isFullscreen)}
+            className='p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 btn-press'
+            data-testid='fullscreen-sidebar-btn'
+            title={isFullscreen ? t('sidebar.exitFullscreen') : t('sidebar.fullscreen')}
+          >
+            {isFullscreen ? <Minimize size={18} /> : <Maximize size={18} />}
+          </button>
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className='lg:hidden p-1.5 rounded-lg text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 btn-press'
+            data-testid='close-sidebar-btn'
+          >
+            <ChevronLeft size={18} />
+          </button>
+        </div>
       </div>
 
       <div className='flex-1 overflow-y-auto custom-scrollbar'>
