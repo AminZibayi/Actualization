@@ -97,5 +97,13 @@
   },
   "errors": {
     "downloadFailed": "Could not generate image. Please try again."
+  },
+  "yaml": {
+    "error": "error",
+    "errors": "errors",
+    "warning": "warning",
+    "warnings": "warnings",
+    "problems": "Problems",
+    "line": "Line"
   }
 }

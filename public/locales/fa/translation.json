@@ -97,5 +97,13 @@
   },
   "errors": {
     "downloadFailed": "تصویر ایجاد نشد. لطفا دوباره تلاش کنید."
+  },
+  "yaml": {
+    "error": "خطا",
+    "errors": "خطا",
+    "warning": "هشدار",
+    "warnings": "هشدار",
+    "problems": "مشکلات",
+    "line": "خط"
   }
 }

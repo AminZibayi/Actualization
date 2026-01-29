@@ -14,16 +14,18 @@ import {
   AlertTriangle,
   RotateCcw,
 } from 'lucide-react';
-import { CanvasData, EditorTab, Note, NoteColor } from '@/types';
+import { CanvasData, EditorTab, Note, NoteColor, YamlError } from '@/types';
 import { BLOCK_IDS, NOTE_COLOR_VALUES, PATTERN_TYPE } from '@/constants';
 import { PatternSelector } from './PatternSelector';
 import { FontSelector } from './FontSelector';
+import { YamlEditor } from './YamlEditor';
 
 interface EditorSidebarProps {
   data: CanvasData;
   setData: React.Dispatch<React.SetStateAction<CanvasData>>;
   activeTab: EditorTab;
   yamlText: string;
+  yamlErrors: YamlError[];
   onYamlChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isRTL: boolean;
   isSidebarOpen: boolean;
@@ -230,6 +232,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
   setData,
   activeTab,
   yamlText,
+  yamlErrors,
   onYamlChange,
   isRTL,
   isSidebarOpen,
@@ -447,14 +450,7 @@ export const EditorSidebar: React.FC<EditorSidebarProps> = ({
         )}
 
         {activeTab === 'yaml' ? (
-          <textarea
-            ref={textAreaRef}
-            className='w-full p-4 font-mono text-sm bg-gray-900 text-green-400 resize-none outline-none overflow-hidden min-h-[500px]'
-            value={yamlText}
-            onChange={onYamlChange}
-            spellCheck={false}
-            data-testid='yaml-editor'
-          />
+          <YamlEditor value={yamlText} onChange={onYamlChange} errors={yamlErrors} isRTL={isRTL} />
         ) : (
           <div className='p-5 space-y-5 pb-24'>
             {BLOCK_IDS.map((blockId, index) => {

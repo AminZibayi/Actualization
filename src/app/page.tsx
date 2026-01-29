@@ -18,6 +18,7 @@ export default function Home() {
     isSidebarOpen,
     setIsSidebarOpen,
     yamlText,
+    yamlErrors,
     downloading,
     setDownloading,
     isRTL,
@@ -188,6 +189,7 @@ export default function Home() {
             setData={setData}
             activeTab={activeTab}
             yamlText={yamlText}
+            yamlErrors={yamlErrors}
             onYamlChange={handleYamlChange}
             isRTL={isRTL}
             isSidebarOpen={isSidebarOpen}

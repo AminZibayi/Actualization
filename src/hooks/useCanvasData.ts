@@ -2,9 +2,9 @@
 
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CanvasData, Note, EditorTab } from '@/types';
+import { CanvasData, Note, EditorTab, YamlError } from '@/types';
 import { DEFAULT_DATA, SEED_DATA, SEED_DATA_FA } from '@/constants';
-import { generateId, deepClone, serializeToYaml, parseYaml } from '@/utils';
+import { generateId, deepClone, serializeToYaml, parseYamlWithDiagnostics } from '@/utils';
 
 export const useCanvasData = () => {
   const { t, i18n } = useTranslation();
@@ -12,6 +12,7 @@ export const useCanvasData = () => {
   const [activeTab, setActiveTab] = useState<EditorTab>('editor');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [yamlText, setYamlText] = useState('');
+  const [yamlErrors, setYamlErrors] = useState<YamlError[]>([]);
   const [downloading, setDownloading] = useState(false);
 
   const isRTL = i18n.language === 'fa';
@@ -25,6 +26,7 @@ export const useCanvasData = () => {
   const syncYamlFromData = useCallback(() => {
     if (activeTab === 'editor') {
       setYamlText(serializeToYaml(data));
+      setYamlErrors([]);
     }
   }, [data, activeTab]);
 
@@ -38,9 +40,12 @@ export const useCanvasData = () => {
     (e: React.ChangeEvent<HTMLTextAreaElement>) => {
       const val = e.target.value;
       setYamlText(val);
-      const parsed = parseYaml(val, data);
-      if (parsed) {
-        setData(parsed);
+
+      const result = parseYamlWithDiagnostics(val, data);
+      setYamlErrors(result.errors);
+
+      if (result.data) {
+        setData(result.data);
       }
     },
     [data]
@@ -108,6 +113,7 @@ export const useCanvasData = () => {
     setIsSidebarOpen,
     yamlText,
     setYamlText,
+    yamlErrors,
     downloading,
     setDownloading,
     isRTL,
