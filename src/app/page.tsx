@@ -1,14 +1,18 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { snapdom } from '@zumer/snapdom';
 import { Header, EditorSidebar, CanvasPreview, MobileControlBar } from '@/components';
 import { useCanvasData } from '@/hooks';
 
+// Lazy load Wiki component for code splitting
+const Wiki = lazy(() => import('@/components').then((mod) => ({ default: mod.Wiki })));
+
 export default function Home() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
+  const [isWikiOpen, setIsWikiOpen] = useState(false);
 
   const {
     data,
@@ -179,6 +183,7 @@ export default function Home() {
             onSeed={handleSeed}
             onDownload={handleDownload}
             downloading={downloading}
+            onOpenWiki={() => setIsWikiOpen(true)}
           />
         </div>
 
@@ -217,8 +222,16 @@ export default function Home() {
           onDownload={handleDownload}
           downloading={downloading}
           isRTL={isRTL}
+          onOpenWiki={() => setIsWikiOpen(true)}
         />
       </div>
+
+      {/* Wiki Modal - Lazy loaded */}
+      {isWikiOpen && (
+        <Suspense fallback={null}>
+          <Wiki isOpen={isWikiOpen} onClose={() => setIsWikiOpen(false)} isRTL={isRTL} />
+        </Suspense>
+      )}
 
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar {

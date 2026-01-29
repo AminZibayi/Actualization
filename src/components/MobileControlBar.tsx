@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Type, FileText, Download, RefreshCw, Sparkles } from 'lucide-react';
+import { Type, FileText, Download, RefreshCw, Sparkles, BookOpen } from 'lucide-react';
 import { EditorTab } from '@/types';
 
 interface MobileControlBarProps {
@@ -15,6 +15,7 @@ interface MobileControlBarProps {
   onDownload: () => void;
   downloading: boolean;
   isRTL: boolean;
+  onOpenWiki?: () => void;
 }
 
 export const MobileControlBar: React.FC<MobileControlBarProps> = ({
@@ -27,6 +28,7 @@ export const MobileControlBar: React.FC<MobileControlBarProps> = ({
   onDownload,
   downloading,
   isRTL,
+  onOpenWiki,
 }) => {
   const { t } = useTranslation();
 
@@ -71,8 +73,25 @@ export const MobileControlBar: React.FC<MobileControlBarProps> = ({
         </button>
       </div>
 
-      {/* Actions Bar - Seed, Language, Download */}
+      {/* Actions Bar - Wiki, Seed, Language, Download */}
       <div className={`${barClass}`}>
+        {onOpenWiki && (
+          <>
+            <button
+              onClick={onOpenWiki}
+              className={`${btnClass} group relative overflow-hidden`}
+              title={t('header.wiki')}
+              data-testid='mobile-wiki-btn'
+            >
+              <BookOpen
+                size={18}
+                className='text-indigo-500 group-hover:scale-110 transition-transform duration-200'
+              />
+            </button>
+            <div className='w-6 h-px bg-gray-200/50'></div>
+          </>
+        )}
+
         <button
           onClick={onSeed}
           className={`${btnClass} group relative overflow-hidden`}

@@ -2,7 +2,16 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Layout, Type, FileText, Download, RefreshCw, Menu, Sparkles } from 'lucide-react';
+import {
+  Layout,
+  Type,
+  FileText,
+  Download,
+  RefreshCw,
+  Menu,
+  Sparkles,
+  BookOpen,
+} from 'lucide-react';
 import { EditorTab } from '@/types';
 
 interface HeaderProps {
@@ -14,6 +23,7 @@ interface HeaderProps {
   onSeed: () => void;
   onDownload: () => void;
   downloading: boolean;
+  onOpenWiki?: () => void;
 }
 
 // Adjust header padding and spacing
@@ -26,6 +36,7 @@ export const Header: React.FC<HeaderProps> = ({
   onSeed,
   onDownload,
   downloading,
+  onOpenWiki,
 }) => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'fa';
@@ -111,6 +122,23 @@ export const Header: React.FC<HeaderProps> = ({
 
       {/* Right Island: Actions (Hidden on mobile, shown as vertical bar) */}
       <div className={`${islandClass} stagger-3 hidden lg:flex`}>
+        {onOpenWiki && (
+          <>
+            <button
+              onClick={onOpenWiki}
+              className={`${btnClass} group relative overflow-hidden`}
+              title={t('header.wiki')}
+              data-testid='wiki-btn'
+            >
+              <BookOpen
+                size={16}
+                className='text-indigo-500 group-hover:scale-110 transition-transform duration-200'
+              />
+            </button>
+            <div className='h-6 w-px bg-gray-200/50'></div>
+          </>
+        )}
+
         <button
           onClick={onSeed}
           className={`${btnClass} group relative overflow-hidden`}

@@ -11,7 +11,8 @@
     "closeSidebar": "Close Sidebar",
     "loadExample": "Load Example Data",
     "toggleLanguage": "Toggle Language",
-    "confirmLoadExample": "This will overwrite your current canvas with example data. Continue?"
+    "confirmLoadExample": "This will overwrite your current canvas with example data. Continue?",
+    "wiki": "Wiki"
   },
   "sidebar": {
     "projectDetails": "Project Details",
@@ -107,5 +108,68 @@
     "warnings": "warnings",
     "problems": "Problems",
     "line": "Line"
+  },
+  "wiki": {
+    "title": "Wiki",
+    "search": "Search wiki...",
+    "noResults": "No results found",
+    "searchResultsCount": "{{count}} result(s) found",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "close": "Close",
+    "sections": {
+      "yamlSchema": "YAML Schema & Guide",
+      "canvasGuide": "Canvas Introduction & Guide",
+      "softwareGuide": "Software Usage Guide"
+    },
+    "yamlSchema": {
+      "title": "YAML Schema & Guide",
+      "intro": "The Actualization Canvas uses YAML for data definition. Here's the complete schema:",
+      "metaTitle": "Meta Section",
+      "metaDesc": "Project metadata and display settings",
+      "blocksTitle": "Blocks Section",
+      "blocksDesc": "Canvas blocks define the business model sections",
+      "exampleTitle": "Complete Example"
+    },
+    "canvasGuide": {
+      "title": "Actualization Canvas Introduction",
+      "intro": "The Actualization Canvas is a comprehensive business model visualization tool that helps you define and validate your business idea.",
+      "whatIs": "What is the Actualization Canvas?",
+      "whatIsDesc": "An innovative business model canvas that combines the best aspects of Lean Canvas and Business Model Canvas with additional sections for modern startups.",
+      "howToUse": "How to Use",
+      "step1": "Define your project details in the sidebar",
+      "step2": "Add sticky notes to each canvas block",
+      "step3": "Use YAML tab for advanced editing",
+      "step4": "Export as PNG for presentations",
+      "blocks": "Canvas Blocks",
+      "blocksProblem": "Problem: Define the top 1-3 problems you're solving",
+      "blocksSolution": "Solution: Your unique value proposition",
+      "blocksCustomers": "Customer Segments: Who are your target users",
+      "blocksChannels": "Channels: How you reach customers",
+      "blocksRevenue": "Revenue Streams: How you make money",
+      "blocksCost": "Cost Structure: Your main costs"
+    },
+    "softwareGuide": {
+      "title": "Software Usage Guide",
+      "intro": "Learn how to use the Actualization Canvas application effectively.",
+      "navigation": "Navigation",
+      "navDesc": "Switch between GUI and YAML tabs to edit your canvas. Use the sidebar toggle to show/hide the editor.",
+      "editing": "Editing",
+      "editGuiDesc": "In GUI mode, click on any block or sticky note to edit inline. Add new notes with the + button.",
+      "editYamlDesc": "In YAML mode, edit the raw data structure. The editor validates syntax in real-time.",
+      "exporting": "Exporting",
+      "exportDesc": "Click 'Export PNG' to download your canvas as a high-resolution image. Adjust export scale in Advanced Options if needed.",
+      "keyboard": "Keyboard Shortcuts",
+      "keyboardTab": "Tab: Navigate between elements",
+      "keyboardEnter": "Enter: Activate focused element",
+      "keyboardEsc": "Escape: Close modals",
+      "keyboardCtrlS": "Ctrl+S: (Reserved for future save)",
+      "tips": "Tips & Tricks",
+      "tip1": "Use the Seed button to load example data and explore features",
+      "tip2": "Customize fonts for each element type in the sidebar",
+      "tip3": "Background patterns add visual interest to your canvas",
+      "tip4": "Logo URLs are converted to base64 for reliable export",
+      "tip5": "Persian language support includes automatic RTL layout"
+    }
   }
 }
