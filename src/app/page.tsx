@@ -6,8 +6,8 @@ import { snapdom } from '@zumer/snapdom';
 import { Header, EditorSidebar, CanvasPreview, MobileControlBar } from '@/components';
 import { useCanvasData } from '@/hooks';
 
-// Lazy load Wiki component for code splitting
-const Wiki = lazy(() => import('@/components').then((mod) => ({ default: mod.Wiki })));
+// Lazy load Wiki component for code splitting - import directly from file
+const Wiki = lazy(() => import('@/components/Wiki').then((mod) => ({ default: mod.Wiki })));
 
 export default function Home() {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -228,7 +228,15 @@ export default function Home() {
 
       {/* Wiki Modal - Lazy loaded */}
       {isWikiOpen && (
-        <Suspense fallback={null}>
+        <Suspense
+          fallback={
+            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm'>
+              <div className='glass-card p-8 rounded-2xl'>
+                <div className='animate-spin h-8 w-8 border-4 border-indigo-600 border-t-transparent rounded-full'></div>
+              </div>
+            </div>
+          }
+        >
           <Wiki isOpen={isWikiOpen} onClose={() => setIsWikiOpen(false)} isRTL={isRTL} />
         </Suspense>
       )}

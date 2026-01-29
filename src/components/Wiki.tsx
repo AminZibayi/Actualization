@@ -71,9 +71,10 @@ export const Wiki: React.FC<WikiProps> = ({ isOpen, onClose, isRTL }) => {
     }
   }, []);
 
-  // YAML examples
-  const yamlExamples = {
-    meta: `meta:
+  // YAML examples - memoized to avoid recreating on every render
+  const yamlExamples = useMemo(
+    () => ({
+      meta: `meta:
   title: "My Startup"
   caption: "Innovating the Future"
   canvasSize: "A4"
@@ -83,7 +84,7 @@ export const Wiki: React.FC<WikiProps> = ({ isOpen, onClose, isRTL }) => {
     value: "https://example.com/logo.png"
   advanced:
     exportScale: 2`,
-    block: `blocks:
+      block: `blocks:
   - id: "problem"
     title: "Problem"
     color: "#f59e0b"
@@ -92,7 +93,7 @@ export const Wiki: React.FC<WikiProps> = ({ isOpen, onClose, isRTL }) => {
         body: "Existing solutions are too expensive"
       - title: "Poor UX"
         body: "Current tools are hard to use"`,
-    complete: `meta:
+      complete: `meta:
   title: "The Actualization"
   caption: "Business Model Canvas"
   canvasSize: "A4"
@@ -111,7 +112,9 @@ blocks:
     notes:
       - title: "Our Solution"
         body: "How we solve it"`,
-  };
+    }),
+    []
+  );
 
   // Content sections
   const sections = useMemo(
@@ -238,7 +241,7 @@ blocks:
       },
     ],
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [t, copiedCode]
+    [t, copiedCode, copyToClipboard, yamlExamples]
   );
 
   // Filter sections based on search query
@@ -258,19 +261,21 @@ blocks:
   const highlightText = (text: string) => {
     if (!searchQuery.trim()) return text;
 
-    const query = searchQuery.trim();
+    // Escape special regex characters
+    const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const query = escapeRegex(searchQuery.trim());
     const regex = new RegExp(`(${query})`, 'gi');
     const parts = text.split(regex);
 
     return (
       <>
         {parts.map((part, i) =>
-          regex.test(part) ? (
+          part.toLowerCase() === searchQuery.trim().toLowerCase() ? (
             <mark key={i} className='bg-yellow-200 px-1 rounded'>
               {part}
             </mark>
           ) : (
-            part
+            <span key={i}>{part}</span>
           )
         )}
       </>
@@ -386,7 +391,7 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
     <div className='border border-gray-200 rounded-lg overflow-hidden'>
       <button
         onClick={onToggle}
-        className={`w-full flex items-center justify-between p-4 bg-gray-50/50 hover:bg-gray-100/50 transition-colors text-${isRTL ? 'right' : 'left'}`}
+        className={`w-full flex items-center justify-between p-4 bg-gray-50/50 hover:bg-gray-100/50 transition-colors ${isRTL ? 'text-right' : 'text-left'}`}
         aria-expanded={isOpen}
         aria-controls={`accordion-${id}`}
       >
