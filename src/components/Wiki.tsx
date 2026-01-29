@@ -247,10 +247,10 @@ blocks:
 
     const query = searchQuery.toLowerCase();
     return sections.filter((section) => {
+      // Search in section title and ID
       const titleMatch = section.title.toLowerCase().includes(query);
-      // Simple text content search - in a real app, you'd want more sophisticated search
-      const contentMatch = JSON.stringify(section.content).toLowerCase().includes(query);
-      return titleMatch || contentMatch;
+      const idMatch = section.id.toLowerCase().includes(query);
+      return titleMatch || idMatch;
     });
   }, [searchQuery, sections]);
 
