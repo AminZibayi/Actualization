@@ -1,9 +1,14 @@
 'use client';
 
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { YamlError } from '@/types';
 import { AlertCircle, AlertTriangle, ChevronRight } from 'lucide-react';
+import { EditorView, lineNumbers, ViewUpdate } from '@codemirror/view';
+import { EditorState, StateEffect, StateField } from '@codemirror/state';
+import { yaml } from '@codemirror/lang-yaml';
+import { linter, Diagnostic } from '@codemirror/lint';
+import { yamlEditorExtensions } from '@/styles/codemirror-theme';
 
 interface YamlEditorProps {
   value: string;
@@ -12,59 +17,153 @@ interface YamlEditorProps {
   isRTL: boolean;
 }
 
-export const YamlEditor: React.FC<YamlEditorProps> = ({ value, onChange, errors, isRTL }) => {
-  const { t } = useTranslation();
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const lineNumbersRef = useRef<HTMLDivElement>(null);
-
-  // Calculate line count
-  const lineCount = useMemo(() => {
-    return value.split('\n').length;
-  }, [value]);
-
-  // Lines with errors for highlighting
-  const errorLines = useMemo(() => {
-    const lines = new Map<number, YamlError>();
-    for (const error of errors) {
-      if (!lines.has(error.line) || error.severity === 'error') {
-        lines.set(error.line, error);
+// Custom line decoration for error highlighting
+const errorLineEffect = StateEffect.define<{ line: number; severity: 'error' | 'warning' }>();
+const errorLineField = StateField.define({
+  create() {
+    return [];
+  },
+  update(value, tr) {
+    for (const effect of tr.effects) {
+      if (effect.is(errorLineEffect)) {
+        return [...value, effect.value];
       }
     }
-    return lines;
-  }, [errors]);
+    return value;
+  },
+});
 
-  // Sync scroll between textarea and line numbers
+export const YamlEditor: React.FC<YamlEditorProps> = ({ value, onChange, errors, isRTL }) => {
+  const { t } = useTranslation();
+  const editorRef = useRef<HTMLDivElement>(null);
+  const viewRef = useRef<EditorView | null>(null);
+
+  // Convert YamlError[] to CodeMirror Diagnostic[]
+  const errorsToLintDiagnostics = (yamlErrors: YamlError[]): Diagnostic[] => {
+    return yamlErrors.map((error) => {
+      const line = Math.max(0, error.line - 1); // Convert to 0-indexed
+
+      return {
+        from: 0, // Will be calculated properly below
+        to: 0,
+        severity: error.severity,
+        message: error.message,
+        renderMessage: () => {
+          const div = document.createElement('div');
+          div.className = 'text-xs';
+          div.textContent = error.message;
+          if (error.path) {
+            const pathEl = document.createElement('div');
+            pathEl.className = 'text-gray-500 font-mono text-xs mt-1';
+            pathEl.textContent = error.path;
+            div.appendChild(pathEl);
+          }
+          return div;
+        },
+      };
+    });
+  };
+
+  // Initialize CodeMirror
   useEffect(() => {
-    const textarea = textAreaRef.current;
-    const lineNumbers = lineNumbersRef.current;
+    if (!editorRef.current || viewRef.current) return;
 
-    if (!textarea || !lineNumbers) return;
+    const startState = EditorState.create({
+      doc: value,
+      extensions: [
+        lineNumbers(),
+        EditorView.lineWrapping, // Enable line wrapping like VS Code
+        yaml(),
+        ...yamlEditorExtensions(),
+        linter(() => errorsToLintDiagnostics(errors)),
+        errorLineField,
+        EditorView.updateListener.of((update: ViewUpdate) => {
+          if (update.docChanged) {
+            const newValue = update.state.doc.toString();
+            // Create a synthetic event to match the onChange signature
+            const syntheticEvent = {
+              target: { value: newValue },
+              currentTarget: { value: newValue },
+            } as React.ChangeEvent<HTMLTextAreaElement>;
+            onChange(syntheticEvent);
+          }
+        }),
+        EditorView.theme({
+          '&': { height: '100%' },
+          '.cm-scroller': { overflow: 'auto', height: '100%' },
+        }),
+      ],
+    });
 
-    const handleScroll = () => {
-      lineNumbers.scrollTop = textarea.scrollTop;
+    const view = new EditorView({
+      state: startState,
+      parent: editorRef.current,
+    });
+
+    viewRef.current = view;
+
+    return () => {
+      view.destroy();
+      viewRef.current = null;
     };
-
-    textarea.addEventListener('scroll', handleScroll);
-    return () => textarea.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // NOTE: Removed auto-resize logic - we want fixed height with scroll, not dynamic height
+  // Update document when value changes externally
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+
+    const currentValue = view.state.doc.toString();
+    if (currentValue !== value) {
+      view.dispatch({
+        changes: { from: 0, to: currentValue.length, insert: value },
+      });
+    }
+  }, [value]);
+
+  // Update linter when errors change
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+
+    // Force linter update by dispatching a no-op transaction
+    view.dispatch({
+      effects: StateEffect.reconfigure.of([
+        lineNumbers(),
+        EditorView.lineWrapping,
+        yaml(),
+        ...yamlEditorExtensions(),
+        linter(() => errorsToLintDiagnostics(errors)),
+        errorLineField,
+        EditorView.updateListener.of((update: ViewUpdate) => {
+          if (update.docChanged) {
+            const newValue = update.state.doc.toString();
+            const syntheticEvent = {
+              target: { value: newValue },
+              currentTarget: { value: newValue },
+            } as React.ChangeEvent<HTMLTextAreaElement>;
+            onChange(syntheticEvent);
+          }
+        }),
+        EditorView.theme({
+          '&': { height: '100%' },
+          '.cm-scroller': { overflow: 'auto', height: '100%' },
+        }),
+      ]),
+    });
+  }, [errors]);
 
   // Scroll to error line
   const scrollToLine = (line: number) => {
-    if (textAreaRef.current) {
-      const lineHeight = 20; // Approximate line height in pixels
-      textAreaRef.current.scrollTop = (line - 1) * lineHeight;
+    const view = viewRef.current;
+    if (!view) return;
 
-      // Focus and position cursor
-      const lines = value.split('\n');
-      let position = 0;
-      for (let i = 0; i < line - 1 && i < lines.length; i++) {
-        position += lines[i].length + 1;
-      }
-      textAreaRef.current.focus();
-      textAreaRef.current.setSelectionRange(position, position + (lines[line - 1]?.length || 0));
-    }
+    const pos = view.state.doc.line(line).from;
+    view.dispatch({
+      selection: { anchor: pos },
+      effects: EditorView.scrollIntoView(pos, { y: 'center' }),
+    });
+    view.focus();
   };
 
   const errorCount = errors.filter((e) => e.severity === 'error').length;
@@ -90,47 +189,8 @@ export const YamlEditor: React.FC<YamlEditorProps> = ({ value, onChange, errors,
         </div>
       )}
 
-      {/* Editor area with line numbers */}
-      <div className='flex flex-1 bg-gray-900 overflow-auto'>
-        {/* Line numbers */}
-        <div
-          ref={lineNumbersRef}
-          className='flex-shrink-0 bg-gray-800 text-gray-500 text-right select-none overflow-y-scroll overflow-x-hidden'
-          style={{ width: '48px', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {Array.from({ length: lineCount }, (_, i) => {
-            const lineNum = i + 1;
-            const error = errorLines.get(lineNum);
-            return (
-              <div
-                key={lineNum}
-                className={`px-2 leading-5 text-xs font-mono ${
-                  error
-                    ? error.severity === 'error'
-                      ? 'bg-red-900/40 text-red-400'
-                      : 'bg-amber-900/30 text-amber-400'
-                    : ''
-                }`}
-                style={{ height: '20px' }}
-              >
-                {lineNum}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Textarea */}
-        <textarea
-          ref={textAreaRef}
-          className='flex-1 p-4 font-mono text-sm bg-gray-900 text-green-400 resize-none outline-none leading-5 h-full overflow-y-auto'
-          value={value}
-          onChange={onChange}
-          spellCheck={false}
-          dir='ltr'
-          data-testid='yaml-editor'
-          style={{ lineHeight: '20px' }}
-        />
-      </div>
+      {/* CodeMirror Editor */}
+      <div ref={editorRef} className='flex-1 bg-gray-900 overflow-hidden' />
 
       {/* Error details panel */}
       {errors.length > 0 && (

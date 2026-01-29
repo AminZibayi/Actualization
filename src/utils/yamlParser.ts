@@ -6,53 +6,92 @@ import { CanvasYamlSchema, VALID_BLOCK_IDS, ParsedCanvasYaml } from './yamlSchem
 
 /**
  * Find the line number for a given path in YAML text
- * e.g., "blocks.problem[0].color" -> line number
+ * e.g., "blocks.customerSegments[2].color" -> line number where color is defined
  */
 function findLineForPath(yamlText: string, path: string): number {
   const lines = yamlText.split('\n');
   const pathParts = path.split('.');
 
-  let currentIndent = 0;
-  let lineNum = 1;
+  let currentLine = 0; // 0-indexed
+  let currentIndent = -1;
 
-  for (const part of pathParts) {
-    // Handle array notation like "problem[0]"
+  for (let partIndex = 0; partIndex < pathParts.length; partIndex++) {
+    const part = pathParts[partIndex];
+
+    // Handle array notation like "customerSegments[2]"
     const arrayMatch = part.match(/^(\w+)\[(\d+)\]$/);
     const searchKey = arrayMatch ? arrayMatch[1] : part;
+    const arrayIndex = arrayMatch ? parseInt(arrayMatch[2], 10) : null;
 
-    for (let i = lineNum - 1; i < lines.length; i++) {
+    let found = false;
+
+    // Search for the key starting from currentLine
+    for (let i = currentLine; i < lines.length; i++) {
       const line = lines[i];
       const lineIndent = line.search(/\S/);
 
-      // Check if this line contains our key at approximately the right indent level
-      if (lineIndent >= currentIndent) {
-        const keyPattern = new RegExp(`^\\s*-?\\s*${searchKey}\\s*:`);
-        if (keyPattern.test(line) || line.trim().startsWith(`- ${searchKey}:`)) {
-          lineNum = i + 1;
-          currentIndent = lineIndent + 2;
-          break;
-        }
-        // For array items, look for the dash
-        if (arrayMatch && line.trim().startsWith('-')) {
-          const arrayIndex = parseInt(arrayMatch[2], 10);
+      // Skip empty lines
+      if (lineIndent === -1) continue;
+
+      // If we've gone past the current indentation level, we missed it
+      if (currentIndent >= 0 && lineIndent < currentIndent) {
+        break;
+      }
+
+      // Look for the key at the current or deeper indentation
+      const keyPattern = new RegExp(`^\\s*${searchKey}\\s*:`);
+      if (keyPattern.test(line)) {
+        currentLine = i + 1; // Move past this key line
+        currentIndent = lineIndent;
+        found = true;
+
+        // If this is an array key, we need to find the specific array item
+        if (arrayIndex !== null) {
           let dashCount = 0;
-          for (let j = i; j < lines.length; j++) {
-            if (lines[j].trim().startsWith('-') && lines[j].search(/\S/) === lineIndent) {
+          let foundArrayItem = false;
+
+          for (let j = currentLine; j < lines.length; j++) {
+            const arrayLine = lines[j];
+            const arrayLineIndent = arrayLine.search(/\S/);
+
+            // Skip empty lines
+            if (arrayLineIndent === -1) continue;
+
+            // If we've gone back to the same or lower indentation, we're done
+            if (arrayLineIndent <= currentIndent) {
+              break;
+            }
+
+            // Check if this is an array item (starts with -)
+            if (arrayLine.trim().startsWith('-')) {
               if (dashCount === arrayIndex) {
-                lineNum = j + 1;
-                currentIndent = lineIndent + 2;
+                // Found our array item
+                currentLine = j;
+                currentIndent = arrayLineIndent;
+                foundArrayItem = true;
                 break;
               }
               dashCount++;
             }
           }
-          break;
+
+          if (!foundArrayItem) {
+            // Couldn't find the array item, return the key line
+            return i + 1;
+          }
         }
+        break;
       }
+    }
+
+    if (!found) {
+      // Couldn't find this part of the path
+      return 1; // Default to line 1
     }
   }
 
-  return lineNum;
+  // Return 1-indexed line number
+  return currentLine + 1;
 }
 
 /**
