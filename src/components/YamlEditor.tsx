@@ -19,7 +19,11 @@ interface YamlEditorProps {
 
 // Custom line decoration for error highlighting
 const errorLineEffect = StateEffect.define<{ line: number; severity: 'error' | 'warning' }>();
-const errorLineField = StateField.define({
+
+// Define the type for the field value
+type ErrorLineDecoration = { line: number; severity: 'error' | 'warning' };
+
+const errorLineField = StateField.define<ErrorLineDecoration[]>({
   create() {
     return [];
   },
