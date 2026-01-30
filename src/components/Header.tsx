@@ -2,7 +2,16 @@
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Layout, Type, FileText, Download, RefreshCw, Menu, Sparkles } from 'lucide-react';
+import {
+  Layout,
+  Type,
+  FileText,
+  Download,
+  RefreshCw,
+  Menu,
+  Sparkles,
+  BookOpen,
+} from 'lucide-react';
 import { EditorTab } from '@/types';
 
 interface HeaderProps {
@@ -135,6 +144,17 @@ export const Header: React.FC<HeaderProps> = ({
             {isRTL ? 'EN' : 'فا'}
           </span>
         </button>
+
+        <a
+          href='https://github.com/aminZibayi/actualization/tree/main/docs'
+          target='_blank'
+          rel='noopener noreferrer'
+          className={btnClass}
+          title={t('header.documentation')}
+          data-testid='docs-link'
+        >
+          <BookOpen size={16} className='text-blue-500 hover:text-blue-600 transition-colors' />
+        </a>
 
         <div className='h-6 w-px bg-gray-200/50'></div>
 

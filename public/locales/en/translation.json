@@ -11,6 +11,7 @@
     "closeSidebar": "Close Sidebar",
     "loadExample": "Load Example Data",
     "toggleLanguage": "Toggle Language",
+    "documentation": "Documentation",
     "confirmLoadExample": "This will overwrite your current canvas with example data. Continue?"
   },
   "sidebar": {
